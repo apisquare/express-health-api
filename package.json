@@ -1,0 +1,32 @@
+{
+  "name": "express-health",
+  "version": "0.1.0",
+  "description": "Realtime Health Status API for Node applications using Express framework",
+  "main": "index.js",
+  "keywords": [
+    "health",
+    "status",
+    "monitoring",
+    "node",
+    "express"
+  ],
+  "engines": {
+    "node": ">=8"
+  },
+  "author": "Suthagar Kailayapathy <suthagar23.dev@gmail.com>",
+  "contributors": [],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/APISqure/express-health.git"
+  },
+  "license": "MIT",
+  "scripts": {
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "axios": "0.19.2"
+  },
+  "devDependencies": {
+    "eslint": "7.1.0"
+  }
+}
