@@ -1,5 +1,10 @@
 const defaultConfig = {
   apiPath: '/status',
+  mode: "AUTO", // AUTO, ON_REQUEST
+  scheduler: {
+    defaultInterval: 2, // s
+    maxTriggers: 10
+  },
   response: {
     statusCodes: true
   },
