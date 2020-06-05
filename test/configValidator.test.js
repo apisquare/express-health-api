@@ -169,18 +169,6 @@ describe('should validate configurations through configValidator', () => {
             expect(config.consumedServices.mockId.expectedResponseStatus).is.not.undefined;
             expect(config.consumedServices.mockId.expectedResponseStatus).is.equal(defaultConfig.consumedServices.defaultServiceId.expectedResponseStatus)
         });
-
-        it ('should set default service.isRequired if custom config does not have a valid property', () => {
-            customConfig.consumedServices.mockId.isRequired = undefined;
-            let config = configValidator(customConfig);
-            expect(config.consumedServices.mockId.isRequired).is.not.undefined;
-            expect(config.consumedServices.mockId.isRequired).is.equal(defaultConfig.consumedServices.defaultServiceId.isRequired)
-
-            customConfig.consumedServices.mockId.isRequired = "ABC";
-            config = configValidator(customConfig);
-            expect(config.consumedServices.mockId.isRequired).is.not.equals("ABC");
-            expect(config.consumedServices.mockId.isRequired).is.equal(defaultConfig.consumedServices.defaultServiceId.isRequired)
-        });
     });
 
     describe("should validate api configurations", () => {
@@ -219,7 +207,36 @@ describe('should validate configurations through configValidator', () => {
             customConfig.apis = { mockId: { dependsOn: {}}};
             config = configValidator(customConfig);
             expect(config.apis.mockId.dependsOn).is.instanceOf(Array)
+        });
 
+        it ('should set dependsOn service isValid=False if custom config does not have a valid property', () => {
+            customConfig.apis = { mockId: { dependsOn: [{}] }};
+            let config = configValidator(customConfig);
+            expect(config.apis.mockId.dependsOn[0].isValid).false;
+
+            customConfig.apis = { mockId: { dependsOn: [{ serviceId: "defaultServiceId" }] }};
+            config = configValidator(customConfig);
+            expect(config.apis.mockId.dependsOn[0].isValid).false
+
+            customConfig.apis = { mockId: { dependsOn: [{ serviceId: "mockId" }] }};
+            config = configValidator(customConfig);
+            expect(config.apis.mockId.dependsOn[0].isValid).true;
+        });
+
+        it ('should set default isRequired if custom config does not have a valid property for API depends on', () => {
+            customConfig.apis = { mockId: { dependsOn: [{ serviceId: "defaultServiceId" }] }};
+            let config = configValidator(customConfig);
+            expect(config.apis.mockId.dependsOn[0].isRequired).is.not.undefined;
+            expect(config.apis.mockId.dependsOn[0].isRequired).is.equal(defaultConfig.apis.defaultApi.dependsOn[0].isRequired)
+
+            customConfig.apis = { mockId: { dependsOn: [{ serviceId: "defaultServiceId", isRequired: false }] }};
+            config = configValidator(customConfig);
+            expect(config.apis.mockId.dependsOn[0].isRequired).is.equal(customConfig.apis.mockId.dependsOn[0].isRequired)
+
+            customConfig.apis = { mockId: { dependsOn: [{ serviceId: "defaultServiceId", isRequired: "ABC" }] }};
+            config = configValidator(customConfig);
+            expect(config.apis.mockId.dependsOn[0].isRequired).is.not.equals("ABC");
+            expect(config.apis.mockId.dependsOn[0].isRequired).is.equal(defaultConfig.apis.defaultApi.dependsOn[0].isRequired)
         });
     });
 });

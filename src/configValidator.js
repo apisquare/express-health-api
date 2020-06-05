@@ -13,7 +13,9 @@ const configValidator = config => {
   config.isDefault = false;
 
   config.apiPath = config.apiPath || defaultConfig.apiPath;
-  config.consumedServicesAsyncMode = config.consumedServicesAsyncMode || defaultConfig.consumedServicesAsyncMode;
+  if (config.consumedServicesAsyncMode == undefined || typeof config.consumedServicesAsyncMode !== "boolean") {
+    config.consumedServicesAsyncMode = defaultConfig.consumedServicesAsyncMode;
+  }
   
   // Validate responses
   if (config.response) {
@@ -75,6 +77,18 @@ const configValidator = config => {
         apiConfig.dependsOn = [];
       }
 
+      apiConfig.dependsOn.forEach(dependsOnConfig => {
+        dependsOnConfig.isValid = true;
+        if (!dependsOnConfig.serviceId) {
+          dependsOnConfig.isValid = false;
+        }
+        if (!config.consumedServices[dependsOnConfig.serviceId]) {
+          dependsOnConfig.isValid = false;
+        }
+        if (!dependsOnConfig.isRequired || typeof dependsOnConfig.isRequired !== "boolean") {
+          dependsOnConfig.isRequired = defaultConfig.apis.defaultApi.dependsOn[0].isRequired;
+        }
+      });
     }
   } else {
     config.apis = {};

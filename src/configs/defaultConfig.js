@@ -13,8 +13,7 @@ const defaultConfig = {
       serviceName: 'Unknown service name',
       healthCheckUrl: '/',
       requestMethod: 'GET',
-      expectedResponseStatus: '200',
-      isRequired: true
+      expectedResponseStatus: '200'
     }
   },
   apis: {

@@ -1,4 +1,5 @@
 const { axios } = require('./imports');
+const { getCurrentTime } = require('./dateTime');
 
 const REQUEST_TYPES = {
   POST: 'POST',
@@ -32,14 +33,17 @@ const performRequest = async (method, requestURL, data = null, responseTag = nul
     requestParameters.body = JSON.stringify(data);
   }
 
-  let response = { };
+  let response = { duration: {} };
   if (responseTag != null) {
     response.tag = responseTag;
   }
   try {
+    response.duration.start = getCurrentTime();
     const requestResponse = await executeFetch(requestURL, requestParameters);
-    return { ...response, ...requestResponse }; // { status, data }
+    response.duration.end = getCurrentTime();
+    response = { ...response, ...requestResponse }; // { status, data }
   } catch (error) {
+    response.duration.end = getCurrentTime();
     response.error = { 
       error: 'Unknown error occurred', 
       status: RESPONSE_STATUS.UNREACHABLE
@@ -58,8 +62,10 @@ const performRequest = async (method, requestURL, data = null, responseTag = nul
         },
       };
     }
-    return response;
   }
+
+  response.duration.value = response.duration.end - response.duration.start;
+  return response;
 };
 
 const executeFetch = async (requestUrl, requestParameters) => {

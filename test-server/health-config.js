@@ -8,27 +8,25 @@ const defaultConfig = {
   response: {
     statusCodes: true
   },
+  consumedServicesAsyncMode: false,
   consumedServices: {
     mockService1: {
       serviceName: 'Mock Service 1',
       healthCheckUrl: 'https://reqres.in/api/users?page=1',
       requestMethod: 'GET',
-      expectedResponseStatus: 200,
-      isRequired: true
+      expectedResponseStatus: 200
     },
     mockService2: {
       serviceName: 'Mock Service 2',
       healthCheckUrl: 'https://reqres11111.in/api/users?page=2',
       requestMethod: 'GET',
-      expectedResponseStatus: 200,
-      isRequired: true
+      expectedResponseStatus: 200
     },
     mockService3: {
       serviceName: 'Mock Service 3',
       healthCheckUrl: 'https://reqres.in/api/users/2',
       requestMethod: 'GET',
-      expectedResponseStatus: 200,
-      isRequired: true
+      expectedResponseStatus: 200
     }
   },
   apis: {

@@ -10,20 +10,23 @@ const doHealthCheck = async (config) => {
   };
 
   const { consumedServices, apis, consumedServicesAsyncMode } = config;
-
   const consumedServiceStatus = {};
 
   if (!consumedServicesAsyncMode) {
     // Not based on parallel request
     for (let [serviceId, serviceConfig] of Object.entries(consumedServices)) {
-      const { healthCheckUrl, requestMethod, expectedResponseStatus, serviceName, isRequired } = serviceConfig;
+      const { healthCheckUrl, requestMethod, expectedResponseStatus, serviceName } = serviceConfig;
       consumedServiceStatus[serviceId] = {
         serviceName,
-        isRequired,
-        status: STATUS.UNKNOWN
+        status: STATUS.UNKNOWN,
+        requestMethod,
+        healthCheckUrl,
       };
       const response = await apiHelper.performRequest(requestMethod, healthCheckUrl);
-      const { status, error } = response;
+      const { status, error, duration } = response;
+      if (duration) {
+        consumedServiceStatus[serviceId].duration = duration;
+      }
       if (error) {
         consumedServiceStatus[serviceId].status = STATUS.DOWN;
       } else {
@@ -38,17 +41,21 @@ const doHealthCheck = async (config) => {
     // Based on parallel requests
     const requestPromises = [];
     for (let [serviceId, serviceConfig] of Object.entries(consumedServices)) {
-      const { healthCheckUrl, requestMethod, serviceName, isRequired } = serviceConfig;
+      const { healthCheckUrl, requestMethod, serviceName } = serviceConfig;
       consumedServiceStatus[serviceId] = {
         serviceName,
-        isRequired,
-        status: STATUS.UNKNOWN
+        status: STATUS.UNKNOWN,
+        requestMethod,
+        healthCheckUrl
       };
       requestPromises.push(apiHelper.performRequest(requestMethod, healthCheckUrl, null, serviceId));
     }
     const responses = await Promise.all(requestPromises);
     responses.forEach(response => {
-      const { status, error, tag } = response;
+      const { status, error, tag, duration } = response;
+      if (duration) {
+        consumedServiceStatus[tag].duration = duration;
+      }
       if (error) {
         consumedServiceStatus[tag].status = STATUS.DOWN;
       } else {
