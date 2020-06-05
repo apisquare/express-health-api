@@ -29,8 +29,9 @@ jobs:
       run: yarn test
     - name: Run coverage
       run: yarn coverage
-    - name: Push report to CodeCov
+    - name: Install codecov package
       run: npm install -g codecov
+    - name: Push report to CodeCov
       run: yarn coverage-report -t ${{ secrets.CODECOV_TOKEN }}
         
     
