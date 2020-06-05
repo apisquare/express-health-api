@@ -1,5 +1,5 @@
 {
-  "name": "express-health-test-server",
+  "name": "express-health-api-test-server",
   "version": "0.1.0",
   "description": "Examples",
   "main": "index.js",

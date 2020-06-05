@@ -1,7 +1,7 @@
 {
-  "name": "express-health",
+  "name": "express-health-api",
   "version": "0.1.0",
-  "description": "Realtime Health Status API for Node applications using Express framework",
+  "description": "Realtime Health Status API for Node applications with Express framework",
   "main": "index.js",
   "keywords": [
     "health",
@@ -17,7 +17,7 @@
   "contributors": [],
   "repository": {
     "type": "git",
-    "url": "https://github.com/APISqure/express-health.git"
+    "url": "git+https://github.com/APISqure/express-health-api.git"
   },
   "license": "MIT",
   "scripts": {
@@ -49,5 +49,12 @@
       "pre-commit": "lint-staged",
       "pre-push": "yarn test"
     }
+  },
+  "bugs": {
+    "url": "https://github.com/APISqure/express-health-api/issues"
+  },
+  "homepage": "https://github.com/APISqure/express-health-api#readme",
+  "directories": {
+    "test": "test"
   }
 }
