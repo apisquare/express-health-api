@@ -22,6 +22,7 @@
   "license": "MIT",
   "scripts": {
     "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "test": "mocha --recursive",
     "coverage": "nyc mocha --recursive"
   },
@@ -30,8 +31,11 @@
   },
   "devDependencies": {
     "axios-mock-adapter": "^1.18.1",
+    "babel-eslint": "^10.1.0",
     "chai": "~4.2.0",
     "eslint": "7.1.0",
+    "eslint-config-airbnb": "^18.1.0",
+    "eslint-plugin-import": "^2.20.2",
     "husky": "^4.2.5",
     "lint-staged": "^10.2.9",
     "mocha": "~7.2.0",

@@ -1,3 +1,5 @@
+// TODO: Remove this eslint issue
+/* eslint-disable no-unused-vars */
 
 const defaultConfig = require('./configs/defaultConfig');
 const { REQUEST_TYPES } = require('./utils/apiHelper');
