@@ -4,8 +4,11 @@ const defaultConfig = {
   apiPath: '/status',
   response: {
     statusCodes: true,
-    statusText: true,
-    time: true,
+    systemInfo: {
+      common: true,
+      cpu: true,
+      memory: true,
+    }
   },
   consumedServicesAsyncMode: true,
   consumedServices: {

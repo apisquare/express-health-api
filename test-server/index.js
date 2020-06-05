@@ -14,5 +14,6 @@ app.get('/hello', (req, res) =>
 );
 
 app.listen(port, () => {
+  // eslint-disable-next-line no-console
   console.log(`Express health test server listening on http://0.0.0.0:${port}`);
 });

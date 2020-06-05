@@ -19,10 +19,39 @@ const configValidator = config => {
   
   // Validate responses
   if (config.response) {
-    const { statusCodes } = config.response;
+    const { statusCodes, systemInfo } = config.response;
     if (typeof statusCodes !== "boolean") {
       config.response.statusCodes = defaultConfig.response.statusCodes;
     }
+
+    if (systemInfo == undefined) {
+      config.response.systemInfo = defaultConfig.response.systemInfo;
+    }
+    else if (typeof systemInfo === "boolean") {
+      if (systemInfo == true) {
+        config.response.systemInfo = defaultConfig.response.systemInfo;
+      } else {
+        config.response.systemInfo = {
+          common: false,
+          cpu: false,
+          memory: false
+        };
+      }
+    } else if (typeof systemInfo === "object") {
+      const { common, cpu, memory } = systemInfo;
+      if (typeof common !== "boolean") {
+        systemInfo.common = true;
+      }
+      if (typeof cpu !== "boolean") {
+        systemInfo.cpu = defaultConfig.response.systemInfo.cpu;
+      }
+      if (typeof memory !== "boolean") {
+        systemInfo.memory = defaultConfig.response.systemInfo.memory;
+      }
+    } else {
+      config.response.systemInfo = defaultConfig.response.systemInfo;
+    }
+
   } else {
     config.response = defaultConfig.response;
   }

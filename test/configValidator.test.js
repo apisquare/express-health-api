@@ -90,8 +90,68 @@ describe('should validate configurations through configValidator', () => {
             expect(typeof customConfig.response.statusCodes).is.not.equal("boolean")
             const config = configValidator(customConfig);
             expect(config.response.statusCodes).is.not.undefined;
-            expect(typeof customConfig.response.statusCodes).is.equal("boolean");
+            expect(typeof config.response.statusCodes).is.equal("boolean");
             expect(config.response.statusCodes).is.equal(defaultConfig.response.statusCodes)
+        })
+
+        it ("should set valid response.systemInfo if custom config have a invalid property", () => {
+            customConfig.response = { systemInfo: undefined }
+            let config = configValidator(customConfig);
+            expect(config.response.systemInfo).is.not.undefined;
+            expect(typeof config.response.systemInfo).is.equal("object");
+            expect(config.response.systemInfo).is.equal(defaultConfig.response.systemInfo)
+
+            customConfig.response = { systemInfo: "ABC" }
+            config = configValidator(customConfig);
+            expect(config.response.systemInfo).is.not.equal("ABC");
+            expect(typeof config.response.systemInfo).is.equal("object");
+            expect(config.response.systemInfo).is.equal(defaultConfig.response.systemInfo)
+        })
+
+        it ("should response.systemInfo accept booleans to represent the whole response state", () => {
+            customConfig.response = { systemInfo: true }
+            let config = configValidator(customConfig);
+            expect(config.response.systemInfo).is.not.true;
+            expect(typeof config.response.systemInfo).is.equal("object");
+            expect(config.response.systemInfo).is.equal(defaultConfig.response.systemInfo)
+
+            customConfig.response = { systemInfo: false }
+            config = configValidator(customConfig);
+            expect(config.response.systemInfo).is.not.false
+            expect(typeof config.response.systemInfo).is.equal("object");
+            expect(config.response.systemInfo.common).false;
+            expect(config.response.systemInfo.cpu).false;
+            expect(config.response.systemInfo.memory).false;
+        })
+
+        it ("should response.systemInfo accept valid object properties to represent the each response state", () => {
+            customConfig.response = { systemInfo: { common: true, cpu: true, memory: true} }
+            let config = configValidator(customConfig);
+            expect(typeof config.response.systemInfo).is.equal("object");
+            expect(config.response.systemInfo.common).true;
+            expect(config.response.systemInfo.cpu).true;
+            expect(config.response.systemInfo.memory).true;
+
+            customConfig.response = { systemInfo: { common: true, cpu: false, memory: true} }
+            config = configValidator(customConfig);
+            expect(typeof config.response.systemInfo).is.equal("object");
+            expect(config.response.systemInfo.common).true;
+            expect(config.response.systemInfo.cpu).false;
+            expect(config.response.systemInfo.memory).true;
+
+            customConfig.response = { systemInfo: { common: false, cpu: false, memory: false} }
+            config = configValidator(customConfig);
+            expect(typeof config.response.systemInfo).is.equal("object");
+            expect(config.response.systemInfo.common).false;
+            expect(config.response.systemInfo.cpu).false;
+            expect(config.response.systemInfo.memory).false;
+
+            customConfig.response = { systemInfo: { common: "Abc", cpu: "123", memory: 45 } }
+            config = configValidator(customConfig);
+            expect(typeof config.response.systemInfo).is.equal("object");
+            expect(config.response.systemInfo.common).true;
+            expect(config.response.systemInfo.cpu).true;
+            expect(config.response.systemInfo.memory).true;
         })
     })
 
