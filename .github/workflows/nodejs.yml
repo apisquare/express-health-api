@@ -1,0 +1,32 @@
+
+name: Node.js CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [8.x]
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v2
+    - name: Setup Node.JS
+      uses: actions/setup-node@v1
+      with: 
+        node-version: ${{matrix.node-version}}
+    - name: Install packages
+      run: npm install
+    - name: Check lint issues
+      run: npm run lint
+    - name: Run tests
+      run: npm run test
+        
+    
+      
+      
