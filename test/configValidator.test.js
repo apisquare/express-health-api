@@ -136,7 +136,7 @@ describe('should validate configurations through configValidator', () => {
         it ('should set default service.requestMethod if custom config does not have a valid property', () => {
             customConfig.consumedServices.mockId.requestMethod = undefined;
             const config = configValidator(customConfig);
-            expect(config.consumedServices.mockId.requestMethod).is.not.undefined;
+            expect(config.consumedServices.mockId.requestMethod).not.undefined;
             expect(config.consumedServices.mockId.requestMethod).is.equal(defaultConfig.consumedServices.defaultServiceId.requestMethod)
         });
 
