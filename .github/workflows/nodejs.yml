@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [8.x, 10.x]
+        node-version: [8.x]
     steps:
     - name: Check out repository
       uses: actions/checkout@v2
@@ -30,6 +30,7 @@ jobs:
     - name: Run coverage
       run: yarn coverage
     - name: Push report to CodeCov
+      run: npm install -g codecov
       run: yarn coverage-report -t ${{ secrets.CODECOV_TOKEN }}
         
     
