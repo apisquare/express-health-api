@@ -105,4 +105,6 @@ const doHealthCheck = async (config) => {
 
 };
 
-module.exports = doHealthCheck;
+module.exports = {
+  doHealthCheck
+};

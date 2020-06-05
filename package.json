@@ -55,6 +55,6 @@
   },
   "homepage": "https://github.com/APISqure/express-health-api#readme",
   "directories": {
-    "test": "test"
+    "tests": "tests"
   }
 }
