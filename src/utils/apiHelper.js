@@ -23,7 +23,7 @@ const RESPONSE_STATUS = {
 
 const BFF_REQUEST_TIMEOUT = 5000;
 
-const performRequest = async (method, requestURL, data = null) => {
+const performRequest = async (method, requestURL, data = null, responseTag = null) => {
   const requestParameters = {
     method,
     timeout: BFF_REQUEST_TIMEOUT,
@@ -39,10 +39,12 @@ const performRequest = async (method, requestURL, data = null) => {
   }
 
   let response = { };
-
+  if (responseTag != null) {
+    response.tag = responseTag
+  }
   try {
     const requestResponse = await executeFetch(requestURL, requestParameters);
-    return requestResponse; // { status, data }
+    return { ...response, ...requestResponse }; // { status, data }
   } catch (error) {
     response.error = { 
       error: 'Unknown error occurred', 

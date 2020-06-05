@@ -11,26 +11,32 @@ const doHealthCheck = async (config) => {
 
   const { consumedServices, apis } = config;
 
+  const requestPromises = [];
   const consumedServiceStatus = {};
   for (let [serviceId, serviceConfig] of Object.entries(consumedServices)) {
-    const { healthCheckUrl, requestMethod, expectedResponseStatus, serviceName, isRequired } = serviceConfig;
+    const { healthCheckUrl, requestMethod, serviceName, isRequired } = serviceConfig;
     consumedServiceStatus[serviceId] = {
       serviceName,
       isRequired,
       status: STATUS.UNKNOWN
     }
-    const response = await apiHelper.performRequest(requestMethod, healthCheckUrl);
-    const { status, error } = response;
+    requestPromises.push(apiHelper.performRequest(requestMethod, healthCheckUrl, null, serviceId));
+  }
+  const responses = await Promise.all(requestPromises);
+  responses.forEach(response => {
+    const { status, error, tag } = response;
     if (error) {
-      consumedServiceStatus[serviceId].status = STATUS.DOWN
+      consumedServiceStatus[tag].status = STATUS.DOWN
     } else {
+      const { expectedResponseStatus } = consumedServices[tag]
       if (expectedResponseStatus === status) {
-        consumedServiceStatus[serviceId].status = STATUS.UP
+        consumedServiceStatus[tag].status = STATUS.UP
       } else {
-        consumedServiceStatus[serviceId].status = STATUS.DOWN
+        consumedServiceStatus[tag].status = STATUS.DOWN
       }
     }
-  }
+  });
+
 
   // TODO: API Status 
   const apiStatus = {}
