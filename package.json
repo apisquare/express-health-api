@@ -24,7 +24,8 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "test": "mocha --recursive",
-    "coverage": "nyc mocha --recursive"
+    "coverage": "nyc mocha --recursive",
+    "coverage-report": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
   },
   "dependencies": {
     "axios": "0.19.2"
