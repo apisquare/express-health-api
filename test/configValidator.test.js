@@ -87,10 +87,10 @@ describe('should validate configurations through configValidator', () => {
         it ("should set valid response.statusCodes if custom config have a invalid property", () => {
             customConfig.response = { statusCodes: 'foo' }
             // TODO: Check this type of assert
-            expect(typeof customConfig.response.statusCodes).is.not.equal(typeof true)
+            expect(typeof customConfig.response.statusCodes).is.not.equal("boolean")
             const config = configValidator(customConfig);
             expect(config.response.statusCodes).is.not.undefined;
-            expect(typeof customConfig.response.statusCodes).is.equal(typeof true);
+            expect(typeof customConfig.response.statusCodes).is.equal("boolean");
             expect(config.response.statusCodes).is.equal(defaultConfig.response.statusCodes)
         })
     })

@@ -18,7 +18,7 @@ const configValidator = config => {
   // Validate responses
   if (config.response) {
     const { statusCodes } = config.response;
-    if (typeof statusCodes != Boolean) {
+    if (typeof statusCodes !== "boolean") {
       config.response.statusCodes = defaultConfig.response.statusCodes;
     }
   } else {
@@ -49,7 +49,7 @@ const configValidator = config => {
         }
         // TODO: Check expectedResponseStatus for valid integer
 
-        if (!serviceConfig.isRequired || typeof serviceConfig.isRequired != Boolean) {
+        if (!serviceConfig.isRequired || typeof serviceConfig.isRequired !== "boolean") {
           serviceConfig.isRequired = defaultServiceConfig.isRequired;
         }
       }
@@ -71,7 +71,7 @@ const configValidator = config => {
       if (!REQUEST_TYPES[apiConfig.requestMethod]) {
         apiConfig.requestMethod = defaultApiConfig.requestMethod
       }
-      if (!apiConfig.dependsOn || typeof apiConfig.dependsOn != Array) {
+      if (!apiConfig.dependsOn || !Array.isArray(apiConfig.dependsOn)) {
         apiConfig.dependsOn = []
       }
 

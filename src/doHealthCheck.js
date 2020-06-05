@@ -71,13 +71,23 @@ const doHealthCheck = async (config) => {
       status: STATUS.UNKNOWN
     }
     
+    const apiWarnings = []
     apiStatus[apiId].status = STATUS.UP;
     dependsOn.forEach(consumedService => {
       const { serviceId, isRequired } = consumedService;
-      if (isRequired && consumedServiceStatus[serviceId].status !== STATUS.UP) {
-        apiStatus[apiId].status = STATUS.DOWN;
-      }
+      if (isRequired) {
+        if (!consumedServiceStatus[serviceId]) {
+          apiStatus[apiId].status = STATUS.UNKNOWN;
+          apiWarnings.push("Unknown required service " + serviceId);
+        } else if (consumedServiceStatus[serviceId].status !== STATUS.UP && apiStatus[apiId].status !== STATUS.UNKNOWN) {
+          apiStatus[apiId].status = STATUS.DOWN;
+        }
+      } 
     });
+
+    if (apiWarnings.length > 0) {
+      apiStatus[apiId].warnings = apiWarnings
+    }
   }
 
   return {

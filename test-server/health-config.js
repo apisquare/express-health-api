@@ -40,7 +40,7 @@ const defaultConfig = {
     getUsers: {
       apiName: 'Get User',
       requestMethod: 'GET',
-      dependsOn: [{ serviceId: "mockService3", isRequired: true}]
+      dependsOn: [{ serviceId: "mockService4", isRequired: true}]
     }
   }
 }
