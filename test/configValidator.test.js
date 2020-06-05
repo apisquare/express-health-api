@@ -175,33 +175,33 @@ describe('should validate configurations through configValidator', () => {
         it ('should set default config if custom config does not have valid apis config', () => {
             customConfig.apis = undefined;
             const config = configValidator(customConfig);
-            expect(config.apis).is.not.undefined;
+            expect(config.apis).not.undefined;
             expect(config.apis).is.empty
         });
 
         it ('should set default apiName if custom config does not have valid property', () => {
             customConfig.apis = { mockId: {}};
             const config = configValidator(customConfig);
-            expect(config.apis.mockId.apiName).is.not.undefined;
+            expect(config.apis.mockId.apiName).not.undefined;
             expect(config.apis.mockId.apiName).is.equal(defaultConfig.apis.defaultApi.apiName)
         });
 
         it ('should set default requestMethod if custom config does not have valid property', () => {
             customConfig.apis = { mockId: {}};
             let config = configValidator(customConfig);
-            expect(config.apis.mockId.requestMethod).is.not.undefined;
+            expect(config.apis.mockId.requestMethod).not.undefined;
             expect(config.apis.mockId.requestMethod).is.equal(defaultConfig.apis.defaultApi.requestMethod)
 
             customConfig.apis = { mockId: { requestMethod: "GET_UPPER" }};
             config = configValidator(customConfig);
-            expect(config.apis.mockId.requestMethod).is.not.equal("GET_UPPER");
+            expect(config.apis.mockId.requestMethod).not.equal("GET_UPPER");
             expect(config.apis.mockId.requestMethod).is.equal(defaultConfig.apis.defaultApi.requestMethod)
         });
 
         it ('should set default dependsOn config if custom config does not have valid property', () => {
             customConfig.apis = { mockId: {}};
             let config = configValidator(customConfig);
-            expect(config.apis.mockId.dependsOn).is.not.undefined;
+            expect(config.apis.mockId.dependsOn).not.undefined;
             expect(config.apis.mockId.dependsOn).is.instanceOf(Array)
 
             customConfig.apis = { mockId: { dependsOn: {}}};
