@@ -5,7 +5,7 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 const config = require('./health-config');
-const expressHealth = require('../../index');
+const expressHealth = require('../src/connect');
 
 app.use(expressHealth(config));
 

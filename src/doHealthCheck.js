@@ -37,8 +37,6 @@ const doHealthCheck = async (config) => {
     }
   });
 
-
-  // TODO: API Status 
   const apiStatus = {}
   for (let [apiId, apiConfig] of Object.entries(apis)) {
     const { apiName, requestMethod, dependsOn } = apiConfig;
