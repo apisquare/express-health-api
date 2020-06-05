@@ -2,6 +2,7 @@
 
 ![Node.js CI](https://github.com/APISqure/express-health-api/workflows/Node.js%20CI/badge.svg?branch=master)
 [![NPM version](https://img.shields.io/npm/v/express-health-api.svg)](https://www.npmjs.com/package/express-health-api)
+[![codecov](https://codecov.io/gh/APISqure/express-health-api/branch/master/graph/badge.svg)](https://codecov.io/gh/APISqure/express-health-api)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FAPISqure%2Fexpress-health-api.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FAPISqure%2Fexpress-health-api?ref=badge_shield)
 
 
