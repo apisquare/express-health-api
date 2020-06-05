@@ -2,6 +2,7 @@
 
 const apiHelper = require('./utils/apiHelper');
 const constants = require('./constants');
+const { collectSystemInformation } = require('./collectSystemInformation');
 const { STATUS } = constants;
 
 const doHealthCheck = async (config) => {
@@ -9,7 +10,7 @@ const doHealthCheck = async (config) => {
     status: STATUS.UP
   };
 
-  const { consumedServices, apis, consumedServicesAsyncMode } = config;
+  const { consumedServices, apis, consumedServicesAsyncMode, response } = config;
   const consumedServiceStatus = {};
 
   if (!consumedServicesAsyncMode) {
@@ -97,10 +98,13 @@ const doHealthCheck = async (config) => {
     }
   }
 
+  const systemInformation = await collectSystemInformation(response.systemInfo);
+
   return {
     ...res,
     consumedServiceStatus,
-    apiStatus
+    apiStatus,
+    systemInformation
   };
 
 };
