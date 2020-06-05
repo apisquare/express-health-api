@@ -1,4 +1,4 @@
-const systemInfo = require('systeminformation');
+const { systemInfo } = require('./utils/imports');
 
 const memoryCache = {};
 
@@ -12,6 +12,7 @@ const getCommonInformation = async () => {
     const timeRes = await systemInfo.time();
     if (!memoryCache.osInfo) {
       const osRes = await systemInfo.osInfo();
+      console.log('1')
       const { platform, distro, release, arch } = osRes;
       memoryCache.osInfo = {
         platform,
@@ -28,7 +29,7 @@ const getCommonInformation = async () => {
       os: memoryCache.osInfo
     };
   } catch (error) {
-    commonInfo = { error };
+    commonInfo = { error, message: 'Error occurred while collecting common metrics' };
   }
   return commonInfo;
 };
@@ -65,7 +66,7 @@ const getCpuInformation = async () => {
       coresSpeed
     };
   } catch(error) {
-    cpuInfo = { error };
+    cpuInfo = {  error, message: 'Error occurred while collecting cpu metrics' };
   }
   return cpuInfo;
 };
@@ -87,7 +88,7 @@ const getMemoryInformation = async () => {
       active: Number((active / 1024 / 1024 / 1024).toFixed(2))
     };
   } catch(error) {
-    memoryInfo = { error };
+    memoryInfo = {  error, message: 'Error occurred while collecting memory metrics' };
   }
   return memoryInfo;
 };
@@ -114,5 +115,6 @@ const collectSystemInformation = async (config) => {
 };
 
 module.exports = {
-  collectSystemInformation
+  collectSystemInformation,
+  memoryCache
 };

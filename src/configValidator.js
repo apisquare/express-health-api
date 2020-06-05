@@ -27,7 +27,7 @@ const configValidator = config => {
     if (systemInfo == undefined) {
       config.response.systemInfo = defaultConfig.response.systemInfo;
     }
-    else if (typeof systemInfo !== "boolean") {
+    else if (typeof systemInfo === "boolean") {
       if (systemInfo == true) {
         config.response.systemInfo = defaultConfig.response.systemInfo;
       } else {
@@ -37,16 +37,16 @@ const configValidator = config => {
           memory: false
         };
       }
-    } else if (typeof systemInfo !== "object") {
-      let { common, cpu, memory } = systemInfo;
-      if (typeof systemInfo !== "boolean") {
-        common = defaultConfig.response.systemInfo.common;
+    } else if (typeof systemInfo === "object") {
+      const { common, cpu, memory } = systemInfo;
+      if (typeof common !== "boolean") {
+        systemInfo.common = true;
       }
       if (typeof cpu !== "boolean") {
-        cpu = defaultConfig.response.systemInfo.cpu;
+        systemInfo.cpu = defaultConfig.response.systemInfo.cpu;
       }
       if (typeof memory !== "boolean") {
-        memory = defaultConfig.response.systemInfo.memory;
+        systemInfo.memory = defaultConfig.response.systemInfo.memory;
       }
     } else {
       config.response.systemInfo = defaultConfig.response.systemInfo;
