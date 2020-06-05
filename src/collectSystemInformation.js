@@ -12,7 +12,6 @@ const getCommonInformation = async () => {
     const timeRes = await systemInfo.time();
     if (!memoryCache.osInfo) {
       const osRes = await systemInfo.osInfo();
-      console.log('1')
       const { platform, distro, release, arch } = osRes;
       memoryCache.osInfo = {
         platform,
