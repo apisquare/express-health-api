@@ -9,34 +9,59 @@ const doHealthCheck = async (config) => {
     status: STATUS.UP
   }
 
-  const { consumedServices, apis } = config;
+  const { consumedServices, apis, consumedServicesAsyncMode } = config;
 
-  const requestPromises = [];
   const consumedServiceStatus = {};
-  for (let [serviceId, serviceConfig] of Object.entries(consumedServices)) {
-    const { healthCheckUrl, requestMethod, serviceName, isRequired } = serviceConfig;
-    consumedServiceStatus[serviceId] = {
-      serviceName,
-      isRequired,
-      status: STATUS.UNKNOWN
-    }
-    requestPromises.push(apiHelper.performRequest(requestMethod, healthCheckUrl, null, serviceId));
-  }
-  const responses = await Promise.all(requestPromises);
-  responses.forEach(response => {
-    const { status, error, tag } = response;
-    if (error) {
-      consumedServiceStatus[tag].status = STATUS.DOWN
-    } else {
-      const { expectedResponseStatus } = consumedServices[tag]
-      if (expectedResponseStatus === status) {
-        consumedServiceStatus[tag].status = STATUS.UP
+
+  if (!consumedServicesAsyncMode) {
+    // Not based on parallel request
+    for (let [serviceId, serviceConfig] of Object.entries(consumedServices)) {
+      const { healthCheckUrl, requestMethod, expectedResponseStatus, serviceName, isRequired } = serviceConfig;
+      consumedServiceStatus[serviceId] = {
+        serviceName,
+        isRequired,
+        status: STATUS.UNKNOWN
+      }
+      const response = await apiHelper.performRequest(requestMethod, healthCheckUrl);
+      const { status, error } = response;
+      if (error) {
+        consumedServiceStatus[serviceId].status = STATUS.DOWN
       } else {
-        consumedServiceStatus[tag].status = STATUS.DOWN
+        if (expectedResponseStatus === status) {
+          consumedServiceStatus[serviceId].status = STATUS.UP
+        } else {
+          consumedServiceStatus[serviceId].status = STATUS.DOWN
+        }
       }
     }
-  });
-
+  } else {
+    // Based on parallel requests
+    const requestPromises = [];
+    for (let [serviceId, serviceConfig] of Object.entries(consumedServices)) {
+      const { healthCheckUrl, requestMethod, serviceName, isRequired } = serviceConfig;
+      consumedServiceStatus[serviceId] = {
+        serviceName,
+        isRequired,
+        status: STATUS.UNKNOWN
+      }
+      requestPromises.push(apiHelper.performRequest(requestMethod, healthCheckUrl, null, serviceId));
+    }
+    const responses = await Promise.all(requestPromises);
+    responses.forEach(response => {
+      const { status, error, tag } = response;
+      if (error) {
+        consumedServiceStatus[tag].status = STATUS.DOWN
+      } else {
+        const { expectedResponseStatus } = consumedServices[tag]
+        if (expectedResponseStatus === status) {
+          consumedServiceStatus[tag].status = STATUS.UP
+        } else {
+          consumedServiceStatus[tag].status = STATUS.DOWN
+        }
+      }
+    });
+  }
+  
   const apiStatus = {}
   for (let [apiId, apiConfig] of Object.entries(apis)) {
     const { apiName, requestMethod, dependsOn } = apiConfig;

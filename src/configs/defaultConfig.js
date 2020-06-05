@@ -1,23 +1,27 @@
 
 const defaultConfig = {
+  isDefault: true,
   apiPath: '/status',
   response: {
-    statusCodes: true
+    statusCodes: true,
+    statusText: true,
+    time: true,
   },
+  consumedServicesAsyncMode: true,
   consumedServices: {
-    abcService: {
-      serviceName: 'ABC Service',
-      healthCheckUrl: '#',
+    defaultServiceId: {
+      serviceName: 'Unknown service name',
+      healthCheckUrl: '/',
       requestMethod: 'GET',
       expectedResponseStatus: '200',
       isRequired: true
     }
   },
   apis: {
-    login: {
-      apiName: 'Login API',
+    defaultApi: {
+      apiName: 'Unknown API name',
       requestMethod: 'GET',
-      dependsOn: ["abcService"]
+      dependsOn: [{ serviceId: "defaultServiceId", isRequired: true}]
     }
   }
 }
