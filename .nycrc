@@ -6,7 +6,8 @@
   "exclude": [
      "**/node_modules/**",
      "**/test/**",
-     "**/coverage/**"
+     "**/coverage/**",
+     "**/constants.js"
   ],
   "all": true
 }
