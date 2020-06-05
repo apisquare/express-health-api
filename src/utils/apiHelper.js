@@ -109,5 +109,5 @@ module.exports = {
   doHead,
   doPatch,
   performRequest,
-  
+  REQUEST_TYPES,
 };
