@@ -110,6 +110,8 @@ const collectSystemInformation = async (config) => {
     if (memory) {
       response.memory = await getMemoryInformation();
     }
+
+    // TODO: Add Services status : mysql, apache2
   }
   return response;
 };
