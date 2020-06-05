@@ -43,6 +43,6 @@ const defaultConfig = {
       dependsOn: [{ serviceId: "mockService4", isRequired: true}]
     }
   }
-}
+};
 
-module.exports = defaultConfig
+module.exports = defaultConfig;

@@ -1,13 +1,13 @@
 
 
-const apiHelper = require('./utils/apiHelper')
-const constants = require('./constants')
+const apiHelper = require('./utils/apiHelper');
+const constants = require('./constants');
 const { STATUS } = constants;
 
 const doHealthCheck = async (config) => {
   const res = {
     status: STATUS.UP
-  }
+  };
 
   const { consumedServices, apis, consumedServicesAsyncMode } = config;
 
@@ -21,16 +21,16 @@ const doHealthCheck = async (config) => {
         serviceName,
         isRequired,
         status: STATUS.UNKNOWN
-      }
+      };
       const response = await apiHelper.performRequest(requestMethod, healthCheckUrl);
       const { status, error } = response;
       if (error) {
-        consumedServiceStatus[serviceId].status = STATUS.DOWN
+        consumedServiceStatus[serviceId].status = STATUS.DOWN;
       } else {
         if (expectedResponseStatus === status) {
-          consumedServiceStatus[serviceId].status = STATUS.UP
+          consumedServiceStatus[serviceId].status = STATUS.UP;
         } else {
-          consumedServiceStatus[serviceId].status = STATUS.DOWN
+          consumedServiceStatus[serviceId].status = STATUS.DOWN;
         }
       }
     }
@@ -43,35 +43,35 @@ const doHealthCheck = async (config) => {
         serviceName,
         isRequired,
         status: STATUS.UNKNOWN
-      }
+      };
       requestPromises.push(apiHelper.performRequest(requestMethod, healthCheckUrl, null, serviceId));
     }
     const responses = await Promise.all(requestPromises);
     responses.forEach(response => {
       const { status, error, tag } = response;
       if (error) {
-        consumedServiceStatus[tag].status = STATUS.DOWN
+        consumedServiceStatus[tag].status = STATUS.DOWN;
       } else {
-        const { expectedResponseStatus } = consumedServices[tag]
+        const { expectedResponseStatus } = consumedServices[tag];
         if (expectedResponseStatus === status) {
-          consumedServiceStatus[tag].status = STATUS.UP
+          consumedServiceStatus[tag].status = STATUS.UP;
         } else {
-          consumedServiceStatus[tag].status = STATUS.DOWN
+          consumedServiceStatus[tag].status = STATUS.DOWN;
         }
       }
     });
   }
   
-  const apiStatus = {}
+  const apiStatus = {};
   for (let [apiId, apiConfig] of Object.entries(apis)) {
     const { apiName, requestMethod, dependsOn } = apiConfig;
     apiStatus[apiId] = {
       apiName,
       requestMethod,
       status: STATUS.UNKNOWN
-    }
+    };
     
-    const apiWarnings = []
+    const apiWarnings = [];
     apiStatus[apiId].status = STATUS.UP;
     dependsOn.forEach(consumedService => {
       const { serviceId, isRequired } = consumedService;
@@ -86,7 +86,7 @@ const doHealthCheck = async (config) => {
     });
 
     if (apiWarnings.length > 0) {
-      apiStatus[apiId].warnings = apiWarnings
+      apiStatus[apiId].warnings = apiWarnings;
     }
   }
 
@@ -94,8 +94,8 @@ const doHealthCheck = async (config) => {
     ...res,
     consumedServiceStatus,
     apiStatus
-  }
+  };
 
-}
+};
 
 module.exports = doHealthCheck;

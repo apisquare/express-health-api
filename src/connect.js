@@ -1,6 +1,6 @@
 
-const configValidator = require('./configValidator')
-const doHealthCheck = require('./doHealthCheck')
+const configValidator = require('./configValidator');
+const doHealthCheck = require('./doHealthCheck');
 
 const connect = (configuration) => {
 
@@ -12,9 +12,9 @@ const connect = (configuration) => {
       res.send(response);
     }
     next();
-  }
+  };
 
-  return middleware
-}
+  return middleware;
+};
 
 module.exports = connect;

@@ -24,6 +24,6 @@ const defaultConfig = {
       dependsOn: [{ serviceId: "defaultServiceId", isRequired: true}]
     }
   }
-}
+};
 
-module.exports = defaultConfig
+module.exports = defaultConfig;

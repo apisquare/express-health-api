@@ -34,7 +34,7 @@ const performRequest = async (method, requestURL, data = null, responseTag = nul
 
   let response = { };
   if (responseTag != null) {
-    response.tag = responseTag
+    response.tag = responseTag;
   }
   try {
     const requestResponse = await executeFetch(requestURL, requestParameters);

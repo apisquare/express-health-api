@@ -6,7 +6,7 @@ const { REQUEST_TYPES } = require('./utils/apiHelper');
 
 const configValidator = config => {
   if (!config) {
-    return defaultConfig
+    return defaultConfig;
   }
 
   // Assigning isDefault false to indicate the custom config
@@ -55,7 +55,7 @@ const configValidator = config => {
       }
     }
   } else {
-    config.consumedServices = {}
+    config.consumedServices = {};
   }
 
   // validate apis
@@ -69,17 +69,17 @@ const configValidator = config => {
      
       apiConfig.requestMethod = apiConfig.requestMethod.toUpperCase();
       if (!REQUEST_TYPES[apiConfig.requestMethod]) {
-        apiConfig.requestMethod = defaultApiConfig.requestMethod
+        apiConfig.requestMethod = defaultApiConfig.requestMethod;
       }
       if (!apiConfig.dependsOn || !Array.isArray(apiConfig.dependsOn)) {
-        apiConfig.dependsOn = []
+        apiConfig.dependsOn = [];
       }
 
     }
   } else {
-    config.apis = {}
+    config.apis = {};
   }
-  return config
-}
+  return config;
+};
 
-module.exports = configValidator
+module.exports = configValidator;
