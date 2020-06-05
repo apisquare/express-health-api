@@ -114,7 +114,7 @@ describe('should validate configurations through configValidator', () => {
         it ('should set default serviceName if custom config does not have a valid property', () => {
             customConfig.consumedServices.mockId.serviceName = undefined;
             const config = configValidator(customConfig);
-            expect(config.consumedServices.mockId.serviceName).is.not.undefined;
+            expect(config.consumedServices.mockId.serviceName).not.undefined;
             expect(config.consumedServices.mockId.serviceName).is.equal(defaultConfig.consumedServices.defaultServiceId.serviceName)
         });
 
