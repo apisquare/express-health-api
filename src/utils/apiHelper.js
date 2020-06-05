@@ -1,5 +1,4 @@
-
-const axios = require('axios');
+const { axios } = require('./imports');
 
 const REQUEST_TYPES = {
   POST: 'POST',
@@ -30,12 +29,7 @@ const performRequest = async (method, requestURL, data = null, responseTag = nul
   };
 
   if (data != null) {
-    if (data instanceof FormData) {
-      delete requestParameters.headers['content-type'];
-      requestParameters.body = data;
-    } else {
-      requestParameters.body = JSON.stringify(data);
-    }
+    requestParameters.body = JSON.stringify(data);
   }
 
   let response = { };
@@ -95,9 +89,9 @@ const doPost = async (requestURL, data = null) => performRequest(REQUEST_TYPES.P
 
 const doPut = async (requestURL, data = null) => performRequest(REQUEST_TYPES.PUT, requestURL, data);
 
-const doDelete = async (requestURL, data = null) => performRequest(REQUEST_TYPES.DELETE, requestURL, data);
+const doDelete = async (requestURL) => performRequest(REQUEST_TYPES.DELETE, requestURL, null);
 
-const doHead = async (requestURL, data = null) => performRequest(REQUEST_TYPES.HEAD, requestURL, data);
+const doHead = async (requestURL) => performRequest(REQUEST_TYPES.HEAD, requestURL, null);
 
 const doPatch = async (requestURL, data = null) => performRequest(REQUEST_TYPES.PATCH, requestURL, data);
 

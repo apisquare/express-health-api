@@ -8,11 +8,6 @@ const connect = (configuration) => {
   const { mode, scheduler } = config;
   
   const { defaultInterval, maxTriggers } = scheduler;
-  // if (mode == "AUTO") {
-
-  // }
-
-
   const middleware = async (req, res, next) => {
     if (req.path === config.apiPath) {
       const response = await doHealthCheck(config);
