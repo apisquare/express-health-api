@@ -6,7 +6,8 @@ const { REQUEST_TYPES } = require('./utils/apiHelper');
 
 const configValidator = config => {
   if (!config) {
-    return defaultConfig;
+    const defaultConfigForServer = require('./configs/defaultConfig config.json');
+    return defaultConfigForServer;
   }
 
   // Assigning isDefault false to indicate the custom config

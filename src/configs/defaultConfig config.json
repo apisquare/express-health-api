@@ -1,0 +1,15 @@
+{
+  "isDefault": true,
+  "apiPath": "/status",
+  "response": {
+    "statusCodes": true,
+    "systemInfo": {
+      "common": true,
+      "cpu": true,
+      "memory": true
+    }
+  },
+  "consumedServicesAsyncMode": true,
+  "consumedServices": {},
+  "apis": {}
+}

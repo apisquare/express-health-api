@@ -51,6 +51,8 @@ const doHealthCheck = async (config) => {
       };
       requestPromises.push(apiHelper.performRequest(requestMethod, healthCheckUrl, null, serviceId));
     }
+
+    // TODO : Check for allSettled migration
     const responses = await Promise.all(requestPromises);
     responses.forEach(response => {
       const { status, error, tag, duration } = response;
