@@ -16,7 +16,7 @@ Realtime Health Status API for Node applications with Express framework.
 5. Customize your server API statuses with dependent services/consumed services
 
 
-## Setup 
+## Installation & Setup 
 
 Supports to Node.js versions 8.x and above.
 
@@ -32,6 +32,134 @@ app.use(expressHealthApi())
 4. Start your server and go to the health API endpoint (default: `<your_server_address>/status`)
 ---
 
+## Custom Health Status Configuration
+
+You can customize the health API for your needs, and this well send the response based on those custom configurations. 
+
+1. Create a custom configuration file in your project (e.g: `/src/config/healthApi.config.json`)
+2. Import that configuration file to your main file, and pass the configuration to `expressHealthApi` initiation.
+```
+const expressHealthApi = require('express-health-api');
+const customHealthApiConfiguration = require('./config/healthApi.config.json')
+app.use(expressHealthApi(customHealthApiConfiguration))
+```
+
+### Custom configuration properties
+
+Follow the steps to create your custom configuration file for health API.
+
+#### Main parts of the configurations,
+
+| Property | Mandatory | Default value | Description |
+| ------- | ---  | ------------- | ----------- |
+| apiPath | &#9744; | "/status" | API path name |
+| response| &#9744; | { Object with all true } | Response object customization (You can avoid unwanted properties from health API response) |
+| consumedServicesAsyncMode | &#9744;  | true | Consumed services health check method(Async or Sync based requests to endpoints) |
+| consumedServices | &#9744; | { } | Configuration of all the consumed services |
+| apis | &#9744; | { } | Configuration of all available APIs in the server |
+| | |
+
+#### Response configuration
+
+| Property | Mandatory | Default value | Description |
+| -------  | --------  | ------------- | ----------- |
+| statusCodes | &#9744; | true | Include status codes of health checks with response |
+| systemInfo | &#9744; | { Object with all true } | Include system information with response |
+| ── common | &#9744; | true | Include common(OS, Uptime) information with response |
+| ── cpu | &#9744; | true | Include CPU(Cores, Speeds) information with response |
+| ── memory | &#9744; | true | Include memory(Total, Free) information with response |
+| | |
+
+#### Consumed services configuration
+
+Structure should follow this pattern : `{ serviceId: { ...service object } }`. Service object properties are,
+
+| Property | Mandatory | Default value | Description |
+| -------  | --------- | ------------- | ----------- |
+| serviceName | &#9744; | Unknown service name | Name to indicate the consumed service |
+| healthCheckUrl | &check; | - | Health check endpoint of the service |
+| requestMethod | &#9744; | GET | Request method of the health check URL (GET/POST/PUT/PATCH/HEAD/DELETE) |
+| expectedResponseStatus | &#9744; | 200 | Expected response status code from the health check endpoint |
+| | |
+
+#### API's configuration
+
+Structure should follow this pattern : `{ apiId: { ...api object } }`. API object properties are,
+
+| Property | Mandatory | Default value | Description |
+| -------  | --------- | ------------- | ----------- |
+| api | &#9744; | Unknown API name | Name to indicate the API in the server |
+| requestMethod | &#9744; | GET | Request method of the API (GET/POST/PUT/PATCH/HEAD/DELETE) |
+| dependsOn | &#9744; | { } | Services configuration which this API depends on |
+| ── serviceId | &check; | - | ServiceId which mentioned in the consumed services section |
+| ── isRequired |  &#9744; | true | Is this service required to serve this API (down this API if this service went down) |
+| | |
+
+#### Example custom configuration, 
+
+```
+{
+  "apiPath": "/status",             // API Path Name [String]
+  "response": {                     // Response configuration [Object]
+    "statusCodes": true,            // Attach statusCodes with responses [Boolean]
+    "systemInfo": {                 // Attach system information with responses [Boolean/Object]
+        "common": true,             // Attach common information to systemInfo [Boolean]
+        "cpu": true,                // Attach cpu information to systemInfo [Boolean]
+        "memory": true              // Attach memory information to systemInfo [Boolean]
+    }
+  },
+  "consumedServicesAsyncMode": false,   // Consumed Services request mode [Boolean]
+  "consumedServices": {                 // Consumed services configuration [Object]
+    "mockService1": {                   // Consumed serviceId : service configuration object
+      "serviceName": "Mock Service 1",  // Service Name [String]
+      "healthCheckUrl": "https://sampleHealthcheckUrl-1",   // Service health check URL [String]
+      "requestMethod": "GET",                                   // Service health check URL request method [String]
+      "expectedResponseStatus": 200                             // Expected response from health check request [Integer]
+    }
+  },
+  "apis": {                             // Available APIs configuration in the server [Object]
+    "getUser": {                        // API id: apiConfiguration object
+      "apiName": "Get Users",           // API Name [String]
+      "requestMethod": "GET",           // API request method [String]
+      "dependsOn": [                    // Service dependents for this API configuration [Array]
+        {
+          "serviceId": "mockService1",      // Dependent serviceId [String]
+          "isRequired": true                // Is required to this API [Boolean]
+        }
+      ]
+    },
+  }
+}
+```
+
+Minimal custom configuration would be like this as much simple (avoided other properties as those will be filled with default values through the process),
+
+```
+{
+  "consumedServices": {                 
+    "mockService1": {                   
+      "serviceName": "Mock Service 1",  
+      "healthCheckUrl": "https://sampleHealthcheckUrl-1",
+    },
+    "mockService2": {                   
+      "serviceName": "Mock Service 2",  
+      "healthCheckUrl": "https://sampleHealthcheckUrl-2",
+    }
+  },
+  "apis": {                             
+    "getUser": {                        
+      "apiName": "Get Users",           
+      "dependsOn": [{ "serviceId": "mockService1" }]
+    },
+    "getAddress": {                        
+      "apiName": "Get Address",           
+      "dependsOn": [{ "serviceId": "mockService1" }, { "serviceId": "mockService2" }]
+    },
+  }
+}
+```
+
+Find the test-server [custom configurations here](https://github.com/APISqure/express-health-api/blob/master/test-server/healthApi.config.json) as an example.
 
 ## Example Server
 
