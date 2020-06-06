@@ -4,6 +4,7 @@ const { doHealthCheck } = require('./doHealthCheck');
 
 const connect = (configuration) => {
 
+  // TODO: How to handle it for different environments
   const config = configValidator(configuration);
   
   const middleware = async (req, res, next) => {

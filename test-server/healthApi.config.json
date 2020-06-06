@@ -1,0 +1,58 @@
+{
+  "apiPath": "/status",
+  "mode": "AUTO",
+  "scheduler": {
+    "defaultInterval": 2,
+    "maxTriggers": 10
+  },
+  "response": {
+    "statusCodes": true
+  },
+  "consumedServicesAsyncMode": false,
+  "consumedServices": {
+    "mockService1": {
+      "serviceName": "Mock Service 1",
+      "healthCheckUrl": "https://reqres.in/api/users?page=1",
+      "requestMethod": "GET",
+      "expectedResponseStatus": 200
+    },
+    "mockService2": {
+      "serviceName": "Mock Service 2",
+      "healthCheckUrl": "https://reqres11111.in/api/users?page=2",
+      "requestMethod": "GET",
+      "expectedResponseStatus": 200
+    },
+    "mockService3": {
+      "serviceName": "Mock Service 3",
+      "healthCheckUrl": "https://reqres.in/api/users/2",
+      "requestMethod": "GET",
+      "expectedResponseStatus": 200
+    }
+  },
+  "apis": {
+    "getUser": {
+      "apiName": "Get Users",
+      "requestMethod": "GET",
+      "dependsOn": [
+        {
+          "serviceId": "mockService1",
+          "isRequired": true
+        },
+        {
+          "serviceId": "mockService2",
+          "isRequired": true
+        }
+      ]
+    },
+    "getUsers": {
+      "apiName": "Get User",
+      "requestMethod": "GET",
+      "dependsOn": [
+        {
+          "serviceId": "mockService4",
+          "isRequired": true
+        }
+      ]
+    }
+  }
+}

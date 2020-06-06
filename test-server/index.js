@@ -4,7 +4,7 @@ const express = require('express');
 const app = express();
 const port = process.env.PORT || 5000;
 
-const config = require('./health-config');
+const config = require('./healthApi.config.json');
 const expressHealth = require('../src/connect');
 
 app.use(expressHealth(config));
