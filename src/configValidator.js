@@ -18,6 +18,16 @@ const configValidator = config => {
     config.consumedServicesAsyncMode = defaultConfig.consumedServicesAsyncMode;
   }
   
+  // Validate API Security
+  if (typeof config.apiSecurity === 'object') {
+    const { headerToken } = config.apiSecurity;
+    if (!headerToken) {
+      config.apiSecurity = false;
+    }
+  } else {
+    config.apiSecurity = false;
+  }
+
   // Validate responses
   if (config.response) {
     const { statusCodes, systemInfo } = config.response;

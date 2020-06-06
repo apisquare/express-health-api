@@ -9,6 +9,16 @@ const connect = (configuration) => {
   
   const middleware = async (req, res, next) => {
     if (req.path === config.apiPath) {
+      if (config.apiSecurity) {
+        const { headerToken } = config.apiSecurity;
+        const authToken = req.headers["auth-token"];
+        if (!authToken) {
+          return res.status(403).json({ error: 'Authentication required' });
+        }
+        if (authToken !== headerToken) {
+          return res.status(403).json({ error: 'Authentication failed, Invalid token' });
+        }
+      }
       const response = await doHealthCheck(config);
       res.send(response);
     }
