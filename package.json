@@ -1,6 +1,6 @@
 {
   "name": "express-health-api",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Realtime Health Status API for Node applications with Express framework",
   "main": "index.js",
   "keywords": [
