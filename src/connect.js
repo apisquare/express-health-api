@@ -47,7 +47,7 @@ const connect = (configuration) => {
       }
       
       const response = await doHealthCheck(config);
-      res.send(response);
+      return res.send(response);
     }
     next();
   };
