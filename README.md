@@ -13,7 +13,7 @@ Realtime Health Status API for Node applications with Express framework.
 ## Features:
 1. `/status` api to serve the health statuses
 2. Custom configurations to customize your health API
-3. Include CPU, Memory, Load, Request and Response statistics with health API
+3. Include CPU, Memory, Custom services(e.g: Docker) Load, Request and Response statistics with health API
 4. Attach status of the dependent services/consumed services with your health API
 5. Customize your server API statuses with dependent services/consumed services
 6. Secure your health endpoint before exposing your server related details
@@ -112,6 +112,7 @@ when you enable API Security for health API,
 | ── common | &#9744; | true | Retrieve common(OS, Uptime) information |
 | ── cpu | &#9744; | true | Retrieve CPU(Cores, Speeds) information |
 | ── memory | &#9744; | true | Retrieve memory(Total, Free) information |
+| ── services | &#9744; | undefined | Retrieve running service information from the server (Array of process names) |
 | | |
 
 This is the example configuration to configure required system information,
@@ -121,6 +122,7 @@ This is the example configuration to configure required system information,
     common: true,
     cpu: true,
     memory: true,
+    services: ["mysql", "apache2", "docker"]
   }
   ...
 ```
@@ -158,10 +160,11 @@ Structure should follow this pattern : `{ apiId: { ...api object } }`. API objec
   "response": {                     // Response configuration [Object]
     "statusCodes": true,            // Attach statusCodes with responses [Boolean]
   },
-  "systemInformation": {            // Attach system information with responses [Boolean/Object]
-    "common": true,                 // Attach common information [Boolean]
-    "cpu": true,                    // Attach cpu information [Boolean]
-    "memory": true                  // Attach memory information [Boolean]
+  "systemInformation": {                // Attach system information with responses [Boolean/Object]
+    "common": true,                     // Attach common information [Boolean]
+    "cpu": true,                        // Attach cpu information [Boolean]
+    "memory": true                      // Attach memory information [Boolean]
+    "services": ["mysql", "apache2"]    // Array of process names [Array]
   },
   "consumedServicesAsyncMode": false,   // Consumed Services request mode [Boolean]
   "consumedServices": {                 // Consumed services configuration [Object]
