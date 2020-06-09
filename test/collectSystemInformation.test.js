@@ -35,7 +35,21 @@ describe("should collect system information provide accurate system metrics", ()
       systemInfo.mem = () => ({
         total: 1073741824,
         active: 734003200
-      })    
+      })
+      systemInfo.services = (commaSepServices) => {
+        const res = []
+        const serviceNames = commaSepServices.split(",");
+        serviceNames.forEach(name => {
+          res.push({
+            name,
+            running: true,
+            pids: [1],
+            pcpu: 1.23456,
+            pmem: 0.7896
+          })
+        });
+        return res;
+      }    
     })
 
     it("should return accurate common information", async () => {
@@ -53,6 +67,7 @@ describe("should collect system information provide accurate system metrics", ()
 
       expect(res).not.haveOwnProperty('cpu')
       expect(res).not.haveOwnProperty('memory')
+      expect(res).not.haveOwnProperty('services')
     })
 
     it("should return accurate cpu information", async () => {
@@ -72,6 +87,7 @@ describe("should collect system information provide accurate system metrics", ()
 
       expect(res).not.haveOwnProperty('common')
       expect(res).not.haveOwnProperty('memory')
+      expect(res).not.haveOwnProperty('services')
     })
 
     it("should return accurate memory information", async () => {
@@ -83,6 +99,23 @@ describe("should collect system information provide accurate system metrics", ()
     
       expect(res).not.haveOwnProperty('common')
       expect(res).not.haveOwnProperty('cpu')
+      expect(res).not.haveOwnProperty('services')
+    })
+
+    it("should return accurate services information", async () => {
+      const res = await collectSystemInformation({ services: "abc,cde" })
+      console.log(res)
+      expect(res).haveOwnProperty('services')
+      expect(res.services).haveOwnProperty("abc")
+      expect(res.services.abc.running).equal(true)
+      expect(res.services.abc.totalProcesses).equal(1)
+      expect(res.services.abc.cpu).equal(1.23)
+      expect(res.services.abc.memory).equal(0.79)
+      expect(res.services).haveOwnProperty("cde")
+
+      expect(res).not.haveOwnProperty('common')
+      expect(res).not.haveOwnProperty('cpu')
+      expect(res).not.haveOwnProperty('memory')
     })
   })
 
@@ -99,6 +132,7 @@ describe("should collect system information provide accurate system metrics", ()
       systemInfo.osInfo = () => { throw testError }
       systemInfo.cpu = () => { throw testError }
       systemInfo.mem = () => { throw testError }
+      systemInfo.services = () => { throw testError }
     })
     it("should return proper error details if common metrics collection failed", async () => {
       const res = await collectSystemInformation({ common: true })
@@ -111,6 +145,7 @@ describe("should collect system information provide accurate system metrics", ()
     
       expect(res).not.haveOwnProperty('cpu')
       expect(res).not.haveOwnProperty('memory')
+      expect(res).not.haveOwnProperty('services')
     })
 
     it("should return proper error details if cpu metrics collection failed", async () => {
@@ -124,6 +159,7 @@ describe("should collect system information provide accurate system metrics", ()
     
       expect(res).not.haveOwnProperty('common')
       expect(res).not.haveOwnProperty('memory')
+      expect(res).not.haveOwnProperty('services')
     })
 
     it("should return proper error details if memory metrics collection failed", async () => {
@@ -137,6 +173,20 @@ describe("should collect system information provide accurate system metrics", ()
     
       expect(res).not.haveOwnProperty('common')
       expect(res).not.haveOwnProperty('cpu')
+      expect(res).not.haveOwnProperty('services')
+    })
+
+    it("should return proper error details if service metrics collection failed", async () => {
+      const res = await collectSystemInformation({ services: "abc,cde" })
+      expect(res).haveOwnProperty('services')
+      expect(res.services.abc).to.be.undefined;
+      expect(res.services.cde).to.be.undefined;
+      expect(res.services).haveOwnProperty('error')
+      expect(res.services.error).to.equal(testError);
+    
+      expect(res).not.haveOwnProperty('common')
+      expect(res).not.haveOwnProperty('cpu')
+      expect(res).not.haveOwnProperty('memory')
     })
   })
 });

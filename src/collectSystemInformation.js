@@ -93,13 +93,37 @@ const getMemoryInformation = async () => {
 };
 
 /**
+ * Collect system service's information
+ * @param {*} serviceProcessNames Comma separated process names. E.g: "mysql, apache"
+ */
+const getServicesInformation = async (serviceProcessNames) => {
+  let serviceInfo = {};
+  try {
+    const serviceResponse = await systemInfo.services(serviceProcessNames);
+
+    serviceResponse.forEach(res => {
+      const { name, running, pids, pcpu, pmem } = res;
+      serviceInfo[name] = {
+        running,
+        totalProcesses: pids ? pids.length : 0,
+        cpu: Number(pcpu.toFixed(2)),
+        memory: Number(pmem.toFixed(2)),
+      };
+    });
+  } catch(error) {
+    serviceInfo = {  error, message: 'Error occurred while collecting service metrics' };
+  }
+  return serviceInfo;
+};
+
+/**
  * Collect system information such as OS, CPU and Memory information
  * @param {*} config { common: boolean, cpu: boolean, memory: boolean }
  */
 const collectSystemInformation = async (config) => {
   const response = {};
   if (config) {
-    const { common, cpu, memory } = config;
+    const { common, cpu, memory, services } = config;
     if (common) {
       response.common = await getCommonInformation();
     }
@@ -109,8 +133,9 @@ const collectSystemInformation = async (config) => {
     if (memory) {
       response.memory = await getMemoryInformation();
     }
-
-    // TODO: Add Services status : mysql, apache2
+    if (services) {
+      response.services = await getServicesInformation(services);
+    }
   }
   return response;
 };

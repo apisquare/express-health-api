@@ -93,66 +93,6 @@ describe('should validate configurations through configValidator', () => {
             expect(typeof config.response.statusCodes).is.equal("boolean");
             expect(config.response.statusCodes).is.equal(defaultConfig.response.statusCodes)
         })
-
-        it ("should set valid systemInformation if custom config have a invalid property", () => {
-            customConfig.systemInformation = undefined;
-            let config = configValidator(customConfig);
-            expect(config.systemInformation).is.not.undefined;
-            expect(typeof config.systemInformation).is.equal("object");
-            expect(config.systemInformation).is.equal(defaultConfig.systemInformation)
-
-            customConfig.systemInformation = "ABC"
-            config = configValidator(customConfig);
-            expect(config.systemInformation).is.not.equal("ABC");
-            expect(typeof config.systemInformation).is.equal("object");
-            expect(config.systemInformation).is.equal(defaultConfig.systemInformation)
-        })
-
-        it ("should systemInformation accept booleans to represent the whole response state", () => {
-            customConfig.systemInformation = true 
-            let config = configValidator(customConfig);
-            expect(config.systemInformation).is.not.true;
-            expect(typeof config.systemInformation).is.equal("object");
-            expect(config.systemInformation).is.equal(defaultConfig.systemInformation)
-
-            customConfig.systemInformation = false
-            config = configValidator(customConfig);
-            expect(config.systemInformation).is.not.false
-            expect(typeof config.systemInformation).is.equal("object");
-            expect(config.systemInformation.common).false;
-            expect(config.systemInformation.cpu).false;
-            expect(config.systemInformation.memory).false;
-        })
-
-        it ("should systemInformation accept valid object properties to represent the each response state", () => {
-            customConfig.systemInformation = { common: true, cpu: true, memory: true}
-            let config = configValidator(customConfig);
-            expect(typeof config.systemInformation).is.equal("object");
-            expect(config.systemInformation.common).true;
-            expect(config.systemInformation.cpu).true;
-            expect(config.systemInformation.memory).true;
-
-            customConfig.systemInformation = { common: true, cpu: false, memory: true}
-            config = configValidator(customConfig);
-            expect(typeof config.systemInformation).is.equal("object");
-            expect(config.systemInformation.common).true;
-            expect(config.systemInformation.cpu).false;
-            expect(config.systemInformation.memory).true;
-
-            customConfig.systemInformation = { common: false, cpu: false, memory: false}
-            config = configValidator(customConfig);
-            expect(typeof config.systemInformation).is.equal("object");
-            expect(config.systemInformation.common).false;
-            expect(config.systemInformation.cpu).false;
-            expect(config.systemInformation.memory).false;
-
-            customConfig.systemInformation = { common: "Abc", cpu: "123", memory: 45 }
-            config = configValidator(customConfig);
-            expect(typeof config.systemInformation).is.equal("object");
-            expect(config.systemInformation.common).true;
-            expect(config.systemInformation.cpu).true;
-            expect(config.systemInformation.memory).true;
-        })
     })
 
     describe("should validate consumed services configurations", () => {
@@ -303,4 +243,83 @@ describe('should validate configurations through configValidator', () => {
             expect(config.apis.mockId.dependsOn[0].isRequired).is.equal(defaultConfig.apis.defaultApi.dependsOn[0].isRequired)
         });
     });
+
+    describe("should validate system information configurations", () => {
+        it ("should set valid systemInformation if custom config have a invalid property", () => {
+            customConfig.systemInformation = undefined;
+            let config = configValidator(customConfig);
+            expect(config.systemInformation).is.not.undefined;
+            expect(typeof config.systemInformation).is.equal("object");
+            expect(config.systemInformation).is.equal(defaultConfig.systemInformation)
+            expect(config.systemInformation).not.haveOwnProperty("services")
+
+            customConfig.systemInformation = "ABC"
+            config = configValidator(customConfig);
+            expect(config.systemInformation).is.not.equal("ABC");
+            expect(typeof config.systemInformation).is.equal("object");
+            expect(config.systemInformation).is.equal(defaultConfig.systemInformation)
+            expect(config.systemInformation).not.haveOwnProperty("services")
+        })
+
+        it ("should systemInformation accept booleans to represent the whole response state", () => {
+            customConfig.systemInformation = true 
+            let config = configValidator(customConfig);
+            expect(config.systemInformation).is.not.true;
+            expect(typeof config.systemInformation).is.equal("object");
+            expect(config.systemInformation).is.equal(defaultConfig.systemInformation)
+            expect(config.systemInformation).not.haveOwnProperty("services")
+
+            customConfig.systemInformation = false
+            config = configValidator(customConfig);
+            expect(config.systemInformation).is.not.false
+            expect(typeof config.systemInformation).is.equal("object");
+            expect(config.systemInformation.common).false;
+            expect(config.systemInformation.cpu).false;
+            expect(config.systemInformation.memory).false;
+            expect(config.systemInformation).not.haveOwnProperty("services")
+        })
+
+        it ("should systemInformation accept valid object properties to represent the each response state", () => {
+            customConfig.systemInformation = { common: true, cpu: true, memory: true}
+            let config = configValidator(customConfig);
+            expect(typeof config.systemInformation).is.equal("object");
+            expect(config.systemInformation.common).true;
+            expect(config.systemInformation.cpu).true;
+            expect(config.systemInformation.memory).true;
+            expect(config.systemInformation).not.haveOwnProperty("services")
+
+            customConfig.systemInformation = { common: true, cpu: false, memory: true}
+            config = configValidator(customConfig);
+            expect(typeof config.systemInformation).is.equal("object");
+            expect(config.systemInformation.common).true;
+            expect(config.systemInformation.cpu).false;
+            expect(config.systemInformation.memory).true;
+            expect(config.systemInformation).not.haveOwnProperty("services")
+
+            customConfig.systemInformation = { common: false, cpu: false, memory: false}
+            config = configValidator(customConfig);
+            expect(typeof config.systemInformation).is.equal("object");
+            expect(config.systemInformation.common).false;
+            expect(config.systemInformation.cpu).false;
+            expect(config.systemInformation.memory).false;
+            expect(config.systemInformation).not.haveOwnProperty("services")
+
+            customConfig.systemInformation = { common: "Abc", cpu: "123", memory: 45 }
+            config = configValidator(customConfig);
+            expect(typeof config.systemInformation).is.equal("object");
+            expect(config.systemInformation.common).true;
+            expect(config.systemInformation.cpu).true;
+            expect(config.systemInformation.memory).true;
+            expect(config.systemInformation).not.haveOwnProperty("systemInforservicesmation")
+
+            customConfig.systemInformation = { services: ["abc", "cde"] }
+            config = configValidator(customConfig);
+            expect(typeof config.systemInformation).is.equal("object");
+            expect(config.systemInformation.common).true;
+            expect(config.systemInformation.cpu).true;
+            expect(config.systemInformation.memory).true;
+            expect(config.systemInformation).haveOwnProperty("services")
+            expect(config.systemInformation.services).equal("abc,cde")
+        })
+    })
 });

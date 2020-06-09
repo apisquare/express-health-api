@@ -52,7 +52,7 @@ const configValidator = config => {
         };
       }
     } else if (typeof systemInformation === "object") {
-      const { common, cpu, memory } = systemInformation;
+      const { common, cpu, memory, services } = systemInformation;
       if (typeof common !== "boolean") {
         systemInformation.common = true;
       }
@@ -61,6 +61,9 @@ const configValidator = config => {
       }
       if (typeof memory !== "boolean") {
         systemInformation.memory = defaultConfig.systemInformation.memory;
+      }
+      if (services && Array.isArray(services)) {
+        systemInformation.services = services.join();
       }
     } else {
       config.systemInformation = defaultConfig.systemInformation;
