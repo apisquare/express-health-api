@@ -293,6 +293,10 @@ describe('should validate configurations through configValidator', () => {
             config = configValidator(customConfig);
             expect(config.apis.mockId.dependsOn[0].isRequired).is.equal(customConfig.apis.mockId.dependsOn[0].isRequired)
 
+            customConfig.apis = { mockId: { dependsOn: [{ serviceId: "defaultServiceId", isRequired: true }] }};
+            config = configValidator(customConfig);
+            expect(config.apis.mockId.dependsOn[0].isRequired).is.equal(customConfig.apis.mockId.dependsOn[0].isRequired)
+
             customConfig.apis = { mockId: { dependsOn: [{ serviceId: "defaultServiceId", isRequired: "ABC" }] }};
             config = configValidator(customConfig);
             expect(config.apis.mockId.dependsOn[0].isRequired).is.not.equals("ABC");

@@ -1,5 +1,8 @@
 {
   "apiPath": "/status",
+  "apiSecurity": {
+    "headerToken": "1234567"
+  },
   "mode": "AUTO",
   "scheduler": {
     "defaultInterval": 2,

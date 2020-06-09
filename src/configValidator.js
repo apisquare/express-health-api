@@ -18,6 +18,16 @@ const configValidator = config => {
     config.consumedServicesAsyncMode = defaultConfig.consumedServicesAsyncMode;
   }
   
+  // Validate API Security
+  if (typeof config.apiSecurity === 'object') {
+    const { headerToken } = config.apiSecurity;
+    if (!headerToken) {
+      config.apiSecurity = false;
+    }
+  } else {
+    config.apiSecurity = false;
+  }
+
   // Validate responses
   if (config.response) {
     const { statusCodes, systemInfo } = config.response;
@@ -115,7 +125,7 @@ const configValidator = config => {
         if (!config.consumedServices[dependsOnConfig.serviceId]) {
           dependsOnConfig.isValid = false;
         }
-        if (!dependsOnConfig.isRequired || typeof dependsOnConfig.isRequired !== "boolean") {
+        if (dependsOnConfig.isRequired == undefined || typeof dependsOnConfig.isRequired !== "boolean") {
           dependsOnConfig.isRequired = defaultConfig.apis.defaultApi.dependsOn[0].isRequired;
         }
       });

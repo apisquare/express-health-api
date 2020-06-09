@@ -2,6 +2,9 @@
 const defaultConfig = {
   isDefault: true,
   apiPath: '/status',
+  apiSecurity: {
+    headerToken: 1234567,
+  },
   response: {
     statusCodes: true,
     systemInfo: {
@@ -16,7 +19,7 @@ const defaultConfig = {
       serviceName: 'Unknown service name',
       healthCheckUrl: '/',
       requestMethod: 'GET',
-      expectedResponseStatus: '200'
+      expectedResponseStatus: 200
     }
   },
   apis: {
