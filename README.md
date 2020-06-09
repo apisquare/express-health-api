@@ -1,12 +1,12 @@
 # Express Health API
 
-![Node.js CI Build](https://github.com/APISqure/express-health-api/workflows/Node.js%20CI%20Build/badge.svg)
+![Node.js CI Build](https://github.com/APISquare/express-health-api/workflows/Node.js%20CI%20Build/badge.svg)
 [![NPM version](https://img.shields.io/npm/v/express-health-api.svg)](https://www.npmjs.com/package/express-health-api)
-[![codecov](https://codecov.io/gh/APISqure/express-health-api/branch/master/graph/badge.svg)](https://codecov.io/gh/APISqure/express-health-api)
+[![codecov](https://codecov.io/gh/APISquare/express-health-api/branch/master/graph/badge.svg)](https://codecov.io/gh/APISquare/express-health-api)
 ![npm bundle size](https://img.shields.io/bundlephobia/minzip/express-health-api)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=APISqure_express-health-api&metric=alert_status)](https://sonarcloud.io/dashboard?id=APISqure_express-health-api)
-[![MIT license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://github.com/APISqure/express-health-api/blob/master/LICENSE)
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FAPISqure%2Fexpress-health-api.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FAPISqure%2Fexpress-health-api?ref=badge_shield)
+[![MIT license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://github.com/APISquare/express-health-api/blob/master/LICENSE)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FAPISquare%2Fexpress-health-api.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FAPISquare%2Fexpress-health-api?ref=badge_shield)
 
 Realtime Health Status API for Node applications with Express framework.
 
@@ -161,7 +161,7 @@ Minimal custom configuration would be like this as much simple (avoided other pr
 }
 ```
 
-Find the test-server [custom configurations here](https://github.com/APISqure/express-health-api/blob/master/test-server/healthApi.config.json) as an example.
+Find the test-server [custom configurations here](https://github.com/APISquare/express-health-api/blob/master/test-server/healthApi.config.json) as an example.
 
 ## Example Server
 
@@ -174,9 +174,9 @@ This project has an example project configured with custom configurations. To ru
 
 ## Contributions
 
-You can add any suggestions/feature requirements/bugs to the Github issues page : [https://github.com/APISqure/express-health-api/issues](https://github.com/APISqure/express-health-api/issues)
+You can add any suggestions/feature requirements/bugs to the Github issues page : [https://github.com/APISquare/express-health-api/issues](https://github.com/APISquare/express-health-api/issues)
 
-Add your fixes and development changes as pull requests to this [repository](https://github.com/APISqure/express-health-api/pulls).
+Add your fixes and development changes as pull requests to this [repository](https://github.com/APISquare/express-health-api/pulls).
 
 ## Development
 
@@ -201,5 +201,5 @@ This project configured to validate the tests cases and lint issues before each 
 
 [MIT License](https://opensource.org/licenses/MIT)
 
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FAPISqure%2Fexpress-health-api.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FAPISqure%2Fexpress-health-api?ref=badge_large)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FAPISquare%2Fexpress-health-api.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FAPISquare%2Fexpress-health-api?ref=badge_large)
 
