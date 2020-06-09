@@ -10,7 +10,7 @@ const doHealthCheck = async (config) => {
     status: STATUS.UP
   };
 
-  const { consumedServices, apis, consumedServicesAsyncMode, response } = config;
+  const { consumedServices, apis, consumedServicesAsyncMode } = config;
   const consumedServiceStatus = {};
 
   if (!consumedServicesAsyncMode) {
@@ -100,7 +100,7 @@ const doHealthCheck = async (config) => {
     }
   }
 
-  const systemInformation = await collectSystemInformation(response.systemInfo);
+  const systemInformation = await collectSystemInformation(config.systemInformation);
 
   return {
     ...res,

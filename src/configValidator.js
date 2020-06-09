@@ -30,41 +30,43 @@ const configValidator = config => {
 
   // Validate responses
   if (config.response) {
-    const { statusCodes, systemInfo } = config.response;
+    const { statusCodes } = config.response;
     if (typeof statusCodes !== "boolean") {
       config.response.statusCodes = defaultConfig.response.statusCodes;
     }
+  } else {
+    config.response = defaultConfig.response;
+  }
 
-    if (systemInfo == undefined) {
-      config.response.systemInfo = defaultConfig.response.systemInfo;
-    }
-    else if (typeof systemInfo === "boolean") {
-      if (systemInfo == true) {
-        config.response.systemInfo = defaultConfig.response.systemInfo;
+  // Validate SystemInformation
+  if (config.systemInformation != undefined) {
+    const { systemInformation } = config;
+    if (typeof systemInformation === "boolean") {
+      if (systemInformation == true) {
+        config.systemInformation = defaultConfig.systemInformation;
       } else {
-        config.response.systemInfo = {
+        config.systemInformation = {
           common: false,
           cpu: false,
           memory: false
         };
       }
-    } else if (typeof systemInfo === "object") {
-      const { common, cpu, memory } = systemInfo;
+    } else if (typeof systemInformation === "object") {
+      const { common, cpu, memory } = systemInformation;
       if (typeof common !== "boolean") {
-        systemInfo.common = true;
+        systemInformation.common = true;
       }
       if (typeof cpu !== "boolean") {
-        systemInfo.cpu = defaultConfig.response.systemInfo.cpu;
+        systemInformation.cpu = defaultConfig.systemInformation.cpu;
       }
       if (typeof memory !== "boolean") {
-        systemInfo.memory = defaultConfig.response.systemInfo.memory;
+        systemInformation.memory = defaultConfig.systemInformation.memory;
       }
     } else {
-      config.response.systemInfo = defaultConfig.response.systemInfo;
+      config.systemInformation = defaultConfig.systemInformation;
     }
-
   } else {
-    config.response = defaultConfig.response;
+    config.systemInformation = defaultConfig.systemInformation;
   }
 
   // validate consumed services

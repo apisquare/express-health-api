@@ -58,6 +58,7 @@ Follow the steps to create your custom configuration file for health API.
 | apiPath | &#9744; | "/status" | API path name |
 | apiSecurity | &#9744; | false | Secure health API with auth token |
 | response| &#9744; | { Object with all true } | Response object customization (You can avoid unwanted properties from health API response) |
+| systemInformation | &#9744;  | { Object with all true } | Customize required system information properties |
 | consumedServicesAsyncMode | &#9744;  | true | Consumed services health check method(Async or Sync based requests to endpoints) |
 | consumedServices | &#9744; | { } | Configuration of all the consumed services |
 | apis | &#9744; | { } | Configuration of all available APIs in the server |
@@ -68,10 +69,6 @@ Follow the steps to create your custom configuration file for health API.
 | Property | Mandatory | Default value | Description |
 | -------  | --------  | ------------- | ----------- |
 | statusCodes | &#9744; | true | Include status codes of health checks with response |
-| systemInfo | &#9744; | { Object with all true } | Include system information with response |
-| ── common | &#9744; | true | Include common(OS, Uptime) information with response |
-| ── cpu | &#9744; | true | Include CPU(Cores, Speeds) information with response |
-| ── memory | &#9744; | true | Include memory(Total, Free) information with response |
 | | |
 
 #### API Security configuration
@@ -107,6 +104,27 @@ when you enable API Security for health API,
     }
    ```
 
+#### System Information configuration
+
+| Property | Mandatory | Default value | Description |
+| -------  | --------  | ------------- | ----------- |
+| systemInformation | &#9744; | { Object with all true } | Customize the system related information |
+| ── common | &#9744; | true | Retrieve common(OS, Uptime) information |
+| ── cpu | &#9744; | true | Retrieve CPU(Cores, Speeds) information |
+| ── memory | &#9744; | true | Retrieve memory(Total, Free) information |
+| | |
+
+This is the example configuration to configure required system information,
+```
+  ...
+  systemInformation: {
+    common: true,
+    cpu: true,
+    memory: true,
+  }
+  ...
+```
+
 #### Consumed services configuration
 
 Structure should follow this pattern : `{ serviceId: { ...service object } }`. Service object properties are,
@@ -139,11 +157,11 @@ Structure should follow this pattern : `{ apiId: { ...api object } }`. API objec
   "apiPath": "/status",             // API Path Name [String]
   "response": {                     // Response configuration [Object]
     "statusCodes": true,            // Attach statusCodes with responses [Boolean]
-    "systemInfo": {                 // Attach system information with responses [Boolean/Object]
-        "common": true,             // Attach common information to systemInfo [Boolean]
-        "cpu": true,                // Attach cpu information to systemInfo [Boolean]
-        "memory": true              // Attach memory information to systemInfo [Boolean]
-    }
+  },
+  "systemInformation": {            // Attach system information with responses [Boolean/Object]
+    "common": true,                 // Attach common information [Boolean]
+    "cpu": true,                    // Attach cpu information [Boolean]
+    "memory": true                  // Attach memory information [Boolean]
   },
   "consumedServicesAsyncMode": false,   // Consumed Services request mode [Boolean]
   "consumedServices": {                 // Consumed services configuration [Object]

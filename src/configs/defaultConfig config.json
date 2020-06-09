@@ -2,12 +2,12 @@
   "isDefault": true,
   "apiPath": "/status",
   "response": {
-    "statusCodes": true,
-    "systemInfo": {
-      "common": true,
-      "cpu": true,
-      "memory": true
-    }
+    "statusCodes": true
+  },
+  "systemInformation": {
+    "common": true,
+    "cpu": true,
+    "memory": true
   },
   "consumedServicesAsyncMode": true,
   "consumedServices": {},
