@@ -1,6 +1,6 @@
 
 const configValidator = require('./configValidator');
-const { doHealthCheck } = require('./doHealthCheck');
+const doHealthCheck = require('./doHealthCheck');
 const constants = require('./constants');
 const { STATUS } = constants;
 
