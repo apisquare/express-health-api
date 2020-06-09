@@ -73,7 +73,7 @@ Follow the steps to create your custom configuration file for health API.
 
 #### API Security configuration
 
-You can use this property to secure your health API if you don't want to expose all of your data to outside. You can enable API Security with header token,
+You can use this property to secure your health API if you don't want to expose all of your data outside. You can enable API Security with header token,
 
 ```
 ...
@@ -190,7 +190,7 @@ Structure should follow this pattern : `{ apiId: { ...api object } }`. API objec
 }
 ```
 
-Minimal custom configuration would be like this as much simple (avoided other properties as those will be filled with default values through the process),
+Minimal custom configuration would be simple as this(you can ignore other properties as those will be filled with default values through the process),
 
 ```
 {
@@ -251,7 +251,7 @@ Folder structure of the project,
 - To get the lint issues in the changes: `npm lint` or `yarn lint`
 - To fix your lint issues: `npm lint:fix` or `yarn lint:fix`
 
-This project configured to validate the tests cases and lint issues before each commits. So don't bypass the commit with any issues in your changes.
+This project is configured to validate the test cases and lint issues before each commit. So don't bypass the commit with any issues in your changes.
 
 ## License
 
