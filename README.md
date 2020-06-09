@@ -55,6 +55,7 @@ Follow the steps to create your custom configuration file for health API.
 | Property | Mandatory | Default value | Description |
 | ------- | ---  | ------------- | ----------- |
 | apiPath | &#9744; | "/status" | API path name |
+| apiSecurity | &#9744; | false | Secure health API with auth token |
 | response| &#9744; | { Object with all true } | Response object customization (You can avoid unwanted properties from health API response) |
 | consumedServicesAsyncMode | &#9744;  | true | Consumed services health check method(Async or Sync based requests to endpoints) |
 | consumedServices | &#9744; | { } | Configuration of all the consumed services |
@@ -71,6 +72,39 @@ Follow the steps to create your custom configuration file for health API.
 | ── cpu | &#9744; | true | Include CPU(Cores, Speeds) information with response |
 | ── memory | &#9744; | true | Include memory(Total, Free) information with response |
 | | |
+
+#### API Security configuration
+
+You can use this property to secure your health API if you don't want to expose all of your data to outside. You can enable API Security with header token,
+
+```
+...
+apiSecurity: { headerToken: <YOUR_TOKEN> }
+...
+```
+
+| Property | Mandatory | Default value | Description |
+| -------  | --------  | ------------- | ----------- |
+| headerToken | &check; | Disable API Security | Token to restrict the unauthorized access to your health API |
+| | |
+
+when you enable API Security for health API,
+
+ - You have to attach `auth-token` to the request header to access the health API
+ ```
+ curl -i -H "auth-token:1234567" "http://localhost:5000/status"
+ ```
+ - Health API requests without valid `auth-token` in header will get the following response (anyway it will send `200` - Success response)
+   ```
+    Response Status: 200
+    Response: {
+      "status": "up",
+      "error": {
+        "code": "AUTH_TOKEN_REQUIRED",
+        "message": "Authentication required"
+      }
+    }
+   ```
 
 #### Consumed services configuration
 
