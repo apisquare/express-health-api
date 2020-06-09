@@ -16,6 +16,7 @@ Realtime Health Status API for Node applications with Express framework.
 3. Include CPU, Memory, Load, Request and Response statistics with health API
 4. Attach status of the dependent services/consumed services with your health API
 5. Customize your server API statuses with dependent services/consumed services
+6. Secure your health endpoint before exposing your server related details
 
 
 ## Installation & Setup 
@@ -91,9 +92,9 @@ apiSecurity: { headerToken: <YOUR_TOKEN> }
 when you enable API Security for health API,
 
  - You have to attach `auth-token` to the request header to access the health API
- ```
- curl -i -H "auth-token:1234567" "http://localhost:5000/status"
- ```
+    ```
+    curl -i -H "auth-token:1234567" "http://localhost:5000/status"
+    ```
  - Health API requests without valid `auth-token` in header will get the following response (anyway it will send `200` - Success response)
    ```
     Response Status: 200
