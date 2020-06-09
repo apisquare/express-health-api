@@ -7,11 +7,11 @@ const defaultConfig = {
   },
   response: {
     statusCodes: true,
-    systemInfo: {
-      common: true,
-      cpu: true,
-      memory: true,
-    }
+  },
+  systemInformation: {
+    common: true,
+    cpu: true,
+    memory: true,
   },
   consumedServicesAsyncMode: true,
   consumedServices: {
