@@ -37,7 +37,7 @@ app.use(expressHealthApi())
 
 ## Custom Health Status Configuration
 
-You can customize the health API for your needs, and this well send the response based on those custom configurations. 
+You can customize the health API for your needs, and this will send the response based on those custom configurations. 
 
 1. Create a custom configuration file in your project (e.g: `/src/config/healthApi.config.json`)
 2. Import that configuration file to your main file, and pass the configuration to `expressHealthApi` initiation.
@@ -251,7 +251,7 @@ Folder structure of the project,
 - To get the lint issues in the changes: `npm lint` or `yarn lint`
 - To fix your lint issues: `npm lint:fix` or `yarn lint:fix`
 
-This project configured to validate the tests cases and lint issues before each commits. So don't by pass the commit with any issues in your changes.
+This project configured to validate the tests cases and lint issues before each commits. So don't bypass the commit with any issues in your changes.
 
 ## License
 
