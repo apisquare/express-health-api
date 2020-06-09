@@ -251,7 +251,7 @@ Folder structure of the project,
 - To get the lint issues in the changes: `npm lint` or `yarn lint`
 - To fix your lint issues: `npm lint:fix` or `yarn lint:fix`
 
-This project is configured to validate the test cases and lint issues before each commits. So don't bypass the commit with any issues in your changes.
+This project is configured to validate the test cases and lint issues before each commit. So don't bypass the commit with any issues in your changes.
 
 ## License
 
