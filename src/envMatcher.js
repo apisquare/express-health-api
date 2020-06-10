@@ -9,7 +9,7 @@ const loadConfigPropertiesFromEnv = (config) => {
   if (process.env[processEnvNames.AUTH_TOKEN]) {
     config.apiSecurity = {
       ...apiSecurity,
-      headerToken: process.env[processEnvNames.AUTH_TOKEN]
+      authToken: process.env[processEnvNames.AUTH_TOKEN]
     };
   }
   return config;

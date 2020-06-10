@@ -53,7 +53,7 @@ describe("should connect the Health API to express server", () => {
   })
 
   it("should not send health response with empty token when the config enabled with apiSecurity", async () => {
-    const customConfig = { apiPath: "/status", apiSecurity: { headerToken: "$3dsample_token"} }
+    const customConfig = { apiPath: "/status", apiSecurity: { authToken: "$3dsample_token"} }
     const middleware = connect(customConfig);
     mockRequest.path = "/status";
     expect(mockRequest.path).is.equal(customConfig.apiPath);
@@ -73,7 +73,7 @@ describe("should connect the Health API to express server", () => {
   })
 
   it("should not send health response with invalid token when the config enabled with apiSecurity", async () => {
-    const customConfig = { apiPath: "/status", apiSecurity: { headerToken: "$3dsample_token"} }
+    const customConfig = { apiPath: "/status", apiSecurity: { authToken: "$3dsample_token"} }
     const middleware = connect(customConfig);
     mockRequest.path = "/status";
     mockRequest.headers = { "auth-token": "sample_token"}
@@ -94,7 +94,7 @@ describe("should connect the Health API to express server", () => {
   })
 
   it("should send health response with accurate token when the config enabled with apiSecurity", async () => {
-    const customConfig = { apiPath: "/status", apiSecurity: { headerToken: "$3dsample_token"} }
+    const customConfig = { apiPath: "/status", apiSecurity: { authToken: "$3dsample_token"} }
     const middleware = connect(customConfig);
     mockRequest.path = "/status";
     mockRequest.headers = { "auth-token": "$3dsample_token"}

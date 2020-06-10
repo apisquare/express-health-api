@@ -14,32 +14,32 @@ describe("should update the properties from Node ENV", () => {
     expect(process.env[processEnvNames.AUTH_TOKEN]).to.equal('tmp_token')
     const updatedConfig = loadConfigPropertiesFromEnv(mockConfig);
     expect(updatedConfig).haveOwnProperty("apiSecurity")
-    expect(updatedConfig.apiSecurity).haveOwnProperty("headerToken")
-    expect(updatedConfig.apiSecurity.headerToken).is.equal("tmp_token")
+    expect(updatedConfig.apiSecurity).haveOwnProperty("authToken")
+    expect(updatedConfig.apiSecurity.authToken).is.equal("tmp_token")
   })
 
   it("should update API_AUTH_TOKEN from ENV if it has a valid ENV property", () => {
     const token = "token_1";
-    const mockConfig = { apiSecurity: { headerToken: token }}
+    const mockConfig = { apiSecurity: { authToken: token }}
     expect(process.env).haveOwnProperty(processEnvNames.AUTH_TOKEN);
     expect(process.env[processEnvNames.AUTH_TOKEN]).to.equal('tmp_token')
 
     const updatedConfig = loadConfigPropertiesFromEnv(mockConfig);
     expect(updatedConfig).haveOwnProperty("apiSecurity")
-    expect(updatedConfig.apiSecurity).haveOwnProperty("headerToken")
-    expect(updatedConfig.apiSecurity.headerToken).is.equal("tmp_token")
-    expect(updatedConfig.apiSecurity.headerToken).is.not.equal(token)
+    expect(updatedConfig.apiSecurity).haveOwnProperty("authToken")
+    expect(updatedConfig.apiSecurity.authToken).is.equal("tmp_token")
+    expect(updatedConfig.apiSecurity.authToken).is.not.equal(token)
   })
 
   it("should update base config header token from ENV if it has a valid ENV property[Not deep clone]", () => {
     const token = "token_1";
-    const mockConfig = { apiSecurity: { headerToken: token }}
+    const mockConfig = { apiSecurity: { authToken: token }}
     expect(process.env).haveOwnProperty(processEnvNames.AUTH_TOKEN);
     expect(process.env[processEnvNames.AUTH_TOKEN]).to.equal('tmp_token')
 
     loadConfigPropertiesFromEnv(mockConfig);
-    expect(mockConfig.apiSecurity.headerToken).is.equal("tmp_token")
-    expect(mockConfig.apiSecurity.headerToken).is.not.equal(token)
+    expect(mockConfig.apiSecurity.authToken).is.equal("tmp_token")
+    expect(mockConfig.apiSecurity.authToken).is.not.equal(token)
   })
 
 })

@@ -25,8 +25,8 @@ const configValidator = apiConfiguration => {
   
   // Validate API Security
   if (typeof config.apiSecurity === 'object') {
-    const { headerToken } = config.apiSecurity;
-    if (!headerToken) {
+    const { authToken } = config.apiSecurity;
+    if (!authToken) {
       config.apiSecurity = false;
     }
   } else {

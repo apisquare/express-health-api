@@ -3,7 +3,7 @@ const defaultConfig = {
   isDefault: true,
   apiPath: '/status',
   apiSecurity: {
-    headerToken: 1234567,
+    authToken: 1234567,
   },
   response: {
     statusCodes: true,

@@ -12,15 +12,15 @@ const { STATUS } = constants;
 const authHeaderValidation = (apiSecurity, headers) => {
   const response = { status: STATUS.UP };
   if (apiSecurity) {
-    const { headerToken } = apiSecurity;
-    const authToken = headers["auth-token"];
-    if (!authToken) {
+    const { authToken } = apiSecurity;
+    const headerAuthToken = headers["auth-token"];
+    if (!headerAuthToken) {
       response.error = {
           code: "AUTH_TOKEN_REQUIRED",
           message: "Authentication required"
         };
     }
-    else if (authToken !== headerToken) {
+    else if (headerAuthToken !== authToken) {
       response.error = {
           code: "INVALID_AUTH_TOKEN",
           message: "Authentication failed, Invalid token"

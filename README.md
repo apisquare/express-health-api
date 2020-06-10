@@ -77,13 +77,13 @@ You can use this property to secure your health API if you don't want to expose 
 
 ```
 ...
-apiSecurity: { headerToken: <YOUR_TOKEN> }
+apiSecurity: { authToken: <YOUR_TOKEN> }
 ...
 ```
 
 | Property | Mandatory | Default value | Description |
 | -------  | --------  | ------------- | ----------- |
-| headerToken | &check; | Disable API Security | Token to restrict the unauthorized access to your health API |
+| authToken | &check; | Disable API Security | Token to restrict the unauthorized access to your health API |
 | | |
 
 when you enable API Security for health API,
