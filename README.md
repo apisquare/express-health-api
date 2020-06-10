@@ -10,6 +10,18 @@
 
 Realtime Health Status API for Node applications with Express framework.
 
+## Table of contents
+
+1. [Features](#Features)
+2. [Usage ](#Usage)
+3. [Custom Health Status Configuration](#Custom-Health-Status-Configuration)
+    1. [Main parts of the configurations](#Main-parts-of-the-configurations)
+    2. [Custom configuration properties](#Custom-configuration-properties)
+4. [Example Server](#Example-Server)
+5. [Contributions](#Contributions)
+6. [Development](#Development)
+7. [License](#License)
+
 ## Features:
 1. `/status` api to serve the health statuses
 2. Custom configurations to customize your health API
@@ -18,8 +30,7 @@ Realtime Health Status API for Node applications with Express framework.
 5. Customize your server API statuses with dependent services/consumed services
 6. Secure your health endpoint before exposing your server related details
 
-
-## Installation & Setup 
+## Usage
 
 Supports to Node.js versions 8.x and above.
 
@@ -47,11 +58,7 @@ const customHealthApiConfiguration = require('./config/healthApi.config.json')
 app.use(expressHealthApi(customHealthApiConfiguration))
 ```
 
-### Custom configuration properties
-
-Follow the steps to create your custom configuration file for health API.
-
-#### Main parts of the configurations,
+### Main parts of the configurations
 
 | Property | Mandatory | Default value | Description |
 | ------- | ---  | ------------- | ----------- |
@@ -64,170 +71,174 @@ Follow the steps to create your custom configuration file for health API.
 | apis | &#9744; | { } | Configuration of all available APIs in the server |
 | | |
 
-#### Response configuration
+### Custom configuration properties
 
-| Property | Mandatory | Default value | Description |
-| -------  | --------  | ------------- | ----------- |
-| statusCodes | &#9744; | true | Include status codes of health checks with response |
-| | |
+Follow the steps to create your custom configuration file for health API.
 
-#### API Security configuration
+1. #### Response configuration
 
-You can use this property to secure your health API if you don't want to expose all of your data outside. You can enable API Security with header token,
+    | Property | Mandatory | Default value | Description |
+    | -------  | --------  | ------------- | ----------- |
+    | statusCodes | &#9744; | true | Include status codes of health checks with response |
+    | | |
 
-```
-...
-apiSecurity: { authToken: <YOUR_TOKEN> }
-...
-```
+2. #### API Security configuration
 
-| Property | Mandatory | Default value | Description |
-| -------  | --------  | ------------- | ----------- |
-| authToken | &check; | Disable API Security | Token to restrict the unauthorized access to your health API |
-| | |
+    You can use this property to secure your health API if you don't want to expose all of your data outside. You can enable API Security with header token,
 
-when you enable API Security for health API,
-
- - You have to attach `auth-token` to the request header to access the health API
     ```
-    curl -i -H "auth-token:1234567" "http://localhost:5000/status"
+    ...
+    apiSecurity: { authToken: <YOUR_TOKEN> }
+    ...
     ```
- - Health API requests without valid `auth-token` in header will get the following response (anyway it will send `200` - Success response)
-   ```
-    Response Status: 200
-    Response: {
-      "status": "up",
-      "error": {
-        "code": "AUTH_TOKEN_REQUIRED",
-        "message": "Authentication required"
+
+    | Property | Mandatory | Default value | Description |
+    | -------  | --------  | ------------- | ----------- |
+    | authToken | &check; | Disable API Security | Token to restrict the unauthorized access to your health API |
+    | | |
+
+    when you enable API Security for health API,
+
+    - You have to attach `auth-token` to the request header to access the health API
+        ```
+        curl -i -H "auth-token:1234567" "http://localhost:5000/status"
+        ```
+    - Health API requests without valid `auth-token` in header will get the following response (anyway it will send `200` - Success response)
+      ```
+        Response Status: 200
+        Response: {
+          "status": "up",
+          "error": {
+            "code": "AUTH_TOKEN_REQUIRED",
+            "message": "Authentication required"
+          }
+        }
+      ```
+    **If you like to have different AUTH_TOKEN for each environments,** you can update the AUTH_TOKEN through ENV properties. 
+
+    - Add `HEALTH_API_AUTH_TOKEN` to your `.env` file or ENV properties
+      ```
+      ...
+      HEALTH_API_AUTH_TOKEN=<your_token>
+      ...
+      ```
+
+
+
+3. #### System Information configuration
+
+    | Property | Mandatory | Default value | Description |
+    | -------  | --------  | ------------- | ----------- |
+    | systemInformation | &#9744; | { Object with all true } | Customize the system related information |
+    | ── common | &#9744; | true | Retrieve common(OS, Uptime) information |
+    | ── cpu | &#9744; | true | Retrieve CPU(Cores, Speeds) information |
+    | ── memory | &#9744; | true | Retrieve memory(Total, Free) information |
+    | ── services | &#9744; | undefined | Retrieve running service information from the server (Array of process names) |
+    | | |
+
+    This is the example configuration to configure required system information,
+    ```
+      ...
+      systemInformation: {
+        common: true,
+        cpu: true,
+        memory: true,
+        services: ["mysql", "apache2", "docker"]
+      }
+      ...
+    ```
+
+4. #### Consumed services configuration
+
+    Structure should follow this pattern : `{ serviceId: { ...service object } }`. Service object properties are,
+
+    | Property | Mandatory | Default value | Description |
+    | -------  | --------- | ------------- | ----------- |
+    | serviceName | &#9744; | Unknown service name | Name to indicate the consumed service |
+    | healthCheckUrl | &check; | - | Health check endpoint of the service |
+    | requestMethod | &#9744; | GET | Request method of the health check URL (GET/POST/PUT/PATCH/HEAD/DELETE) |
+    | expectedResponseStatus | &#9744; | 200 | Expected response status code from the health check endpoint |
+    | | |
+
+5. #### API's configuration
+
+    Structure should follow this pattern : `{ apiId: { ...api object } }`. API object properties are,
+
+    | Property | Mandatory | Default value | Description |
+    | -------  | --------- | ------------- | ----------- |
+    | api | &#9744; | Unknown API name | Name to indicate the API in the server |
+    | requestMethod | &#9744; | GET | Request method of the API (GET/POST/PUT/PATCH/HEAD/DELETE) |
+    | dependsOn | &#9744; | { } | Services configuration which this API depends on |
+    | ── serviceId | &check; | - | ServiceId which mentioned in the consumed services section |
+    | ── isRequired |  &#9744; | true | Is this service required to serve this API (down this API if this service went down) |
+    | | |
+
+6. #### Example custom configuration, 
+
+    ```
+    {
+      "apiPath": "/status",             // API Path Name [String]
+      "response": {                     // Response configuration [Object]
+        "statusCodes": true,            // Attach statusCodes with responses [Boolean]
+      },
+      "systemInformation": {                // Attach system information with responses [Boolean/Object]
+        "common": true,                     // Attach common information [Boolean]
+        "cpu": true,                        // Attach cpu information [Boolean]
+        "memory": true                      // Attach memory information [Boolean]
+        "services": ["mysql", "apache2"]    // Array of process names [Array]
+      },
+      "consumedServicesAsyncMode": false,   // Consumed Services request mode [Boolean]
+      "consumedServices": {                 // Consumed services configuration [Object]
+        "mockService1": {                   // Consumed serviceId : service configuration object
+          "serviceName": "Mock Service 1",  // Service Name [String]
+          "healthCheckUrl": "https://sampleHealthcheckUrl-1",   // Service health check URL [String]
+          "requestMethod": "GET",                                   // Service health check URL request method [String]
+          "expectedResponseStatus": 200                             // Expected response from health check request [Integer]
+        }
+      },
+      "apis": {                             // Available APIs configuration in the server [Object]
+        "getUser": {                        // API id: apiConfiguration object
+          "apiName": "Get Users",           // API Name [String]
+          "requestMethod": "GET",           // API request method [String]
+          "dependsOn": [                    // Service dependents for this API configuration [Array]
+            {
+              "serviceId": "mockService1",      // Dependent serviceId [String]
+              "isRequired": true                // Is required to this API [Boolean]
+            }
+          ]
+        },
       }
     }
-   ```
- **If you like to have different AUTH_TOKEN for each environments,** you can update the AUTH_TOKEN through ENV properties. 
+    ```
 
-- Add `HEALTH_API_AUTH_TOKEN` to your `.env` file or ENV properties
-   ```
-   ...
-   HEALTH_API_AUTH_TOKEN=<your_token>
-   ...
-   ```
+    Minimal custom configuration would be simple as this(you can ignore other properties as those will be filled with default values through the process),
 
-
-
-#### System Information configuration
-
-| Property | Mandatory | Default value | Description |
-| -------  | --------  | ------------- | ----------- |
-| systemInformation | &#9744; | { Object with all true } | Customize the system related information |
-| ── common | &#9744; | true | Retrieve common(OS, Uptime) information |
-| ── cpu | &#9744; | true | Retrieve CPU(Cores, Speeds) information |
-| ── memory | &#9744; | true | Retrieve memory(Total, Free) information |
-| ── services | &#9744; | undefined | Retrieve running service information from the server (Array of process names) |
-| | |
-
-This is the example configuration to configure required system information,
-```
-  ...
-  systemInformation: {
-    common: true,
-    cpu: true,
-    memory: true,
-    services: ["mysql", "apache2", "docker"]
-  }
-  ...
-```
-
-#### Consumed services configuration
-
-Structure should follow this pattern : `{ serviceId: { ...service object } }`. Service object properties are,
-
-| Property | Mandatory | Default value | Description |
-| -------  | --------- | ------------- | ----------- |
-| serviceName | &#9744; | Unknown service name | Name to indicate the consumed service |
-| healthCheckUrl | &check; | - | Health check endpoint of the service |
-| requestMethod | &#9744; | GET | Request method of the health check URL (GET/POST/PUT/PATCH/HEAD/DELETE) |
-| expectedResponseStatus | &#9744; | 200 | Expected response status code from the health check endpoint |
-| | |
-
-#### API's configuration
-
-Structure should follow this pattern : `{ apiId: { ...api object } }`. API object properties are,
-
-| Property | Mandatory | Default value | Description |
-| -------  | --------- | ------------- | ----------- |
-| api | &#9744; | Unknown API name | Name to indicate the API in the server |
-| requestMethod | &#9744; | GET | Request method of the API (GET/POST/PUT/PATCH/HEAD/DELETE) |
-| dependsOn | &#9744; | { } | Services configuration which this API depends on |
-| ── serviceId | &check; | - | ServiceId which mentioned in the consumed services section |
-| ── isRequired |  &#9744; | true | Is this service required to serve this API (down this API if this service went down) |
-| | |
-
-#### Example custom configuration, 
-
-```
-{
-  "apiPath": "/status",             // API Path Name [String]
-  "response": {                     // Response configuration [Object]
-    "statusCodes": true,            // Attach statusCodes with responses [Boolean]
-  },
-  "systemInformation": {                // Attach system information with responses [Boolean/Object]
-    "common": true,                     // Attach common information [Boolean]
-    "cpu": true,                        // Attach cpu information [Boolean]
-    "memory": true                      // Attach memory information [Boolean]
-    "services": ["mysql", "apache2"]    // Array of process names [Array]
-  },
-  "consumedServicesAsyncMode": false,   // Consumed Services request mode [Boolean]
-  "consumedServices": {                 // Consumed services configuration [Object]
-    "mockService1": {                   // Consumed serviceId : service configuration object
-      "serviceName": "Mock Service 1",  // Service Name [String]
-      "healthCheckUrl": "https://sampleHealthcheckUrl-1",   // Service health check URL [String]
-      "requestMethod": "GET",                                   // Service health check URL request method [String]
-      "expectedResponseStatus": 200                             // Expected response from health check request [Integer]
-    }
-  },
-  "apis": {                             // Available APIs configuration in the server [Object]
-    "getUser": {                        // API id: apiConfiguration object
-      "apiName": "Get Users",           // API Name [String]
-      "requestMethod": "GET",           // API request method [String]
-      "dependsOn": [                    // Service dependents for this API configuration [Array]
-        {
-          "serviceId": "mockService1",      // Dependent serviceId [String]
-          "isRequired": true                // Is required to this API [Boolean]
+    ```
+    {
+      "consumedServices": {                 
+        "mockService1": {                   
+          "serviceName": "Mock Service 1",  
+          "healthCheckUrl": "https://sampleHealthcheckUrl-1",
+        },
+        "mockService2": {                   
+          "serviceName": "Mock Service 2",  
+          "healthCheckUrl": "https://sampleHealthcheckUrl-2",
         }
-      ]
-    },
-  }
-}
-```
-
-Minimal custom configuration would be simple as this(you can ignore other properties as those will be filled with default values through the process),
-
-```
-{
-  "consumedServices": {                 
-    "mockService1": {                   
-      "serviceName": "Mock Service 1",  
-      "healthCheckUrl": "https://sampleHealthcheckUrl-1",
-    },
-    "mockService2": {                   
-      "serviceName": "Mock Service 2",  
-      "healthCheckUrl": "https://sampleHealthcheckUrl-2",
+      },
+      "apis": {                             
+        "getUser": {                        
+          "apiName": "Get Users",           
+          "dependsOn": [{ "serviceId": "mockService1" }]
+        },
+        "getAddress": {                        
+          "apiName": "Get Address",           
+          "dependsOn": [{ "serviceId": "mockService1" }, { "serviceId": "mockService2" }]
+        },
+      }
     }
-  },
-  "apis": {                             
-    "getUser": {                        
-      "apiName": "Get Users",           
-      "dependsOn": [{ "serviceId": "mockService1" }]
-    },
-    "getAddress": {                        
-      "apiName": "Get Address",           
-      "dependsOn": [{ "serviceId": "mockService1" }, { "serviceId": "mockService2" }]
-    },
-  }
-}
-```
+    ```
 
-Find the test-server [custom configurations here](https://github.com/APISquare/express-health-api/blob/master/test-server/healthApi.config.json) as an example.
+    Find the test-server [custom configurations here](https://github.com/APISquare/express-health-api/blob/master/test-server/healthApi.config.json) as an example.
 
 ## Example Server
 
