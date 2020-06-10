@@ -39,7 +39,7 @@ Supports to Node.js versions 8.x and above.
    - Yarn : `yarn add express-health-api`
 2. Create your custom configurations for the status api [Follow here] or you can go ahead with default configurations.
 3. Go to your main file where you initialized the express server, and place the line before any middleware or routes.
-```
+```javascript
 const expressHealthApi = require('express-health-api');
 app.use(expressHealthApi())
 ```
@@ -52,7 +52,7 @@ You can customize the health API for your needs, and this will send the response
 
 1. Create a custom configuration file in your project (e.g: `/src/config/healthApi.config.json`)
 2. Import that configuration file to your main file, and pass the configuration to `expressHealthApi` initiation.
-```
+```javascript
 const expressHealthApi = require('express-health-api');
 const customHealthApiConfiguration = require('./config/healthApi.config.json')
 app.use(expressHealthApi(customHealthApiConfiguration))
@@ -86,9 +86,9 @@ Follow the steps to create your custom configuration file for health API.
 
     You can use this property to secure your health API if you don't want to expose all of your data outside. You can enable API Security with header token,
 
-    ```
+    ```json
     ...
-    apiSecurity: { authToken: <YOUR_TOKEN> }
+    apiSecurity: { authToken: "YOUR_TOKEN" }
     ...
     ```
 
@@ -100,11 +100,11 @@ Follow the steps to create your custom configuration file for health API.
     when you enable API Security for health API,
 
     - You have to attach `auth-token` to the request header to access the health API
-        ```
+        ```shell
         curl -i -H "auth-token:1234567" "http://localhost:5000/status"
         ```
     - Health API requests without valid `auth-token` in header will get the following response (anyway it will send `200` - Success response)
-      ```
+      ```json
         Response Status: 200
         Response: {
           "status": "up",
@@ -137,7 +137,7 @@ Follow the steps to create your custom configuration file for health API.
     | | |
 
     This is the example configuration to configure required system information,
-    ```
+    ```javascript
       ...
       systemInformation: {
         common: true,
@@ -175,7 +175,7 @@ Follow the steps to create your custom configuration file for health API.
 
 6. #### Example custom configuration, 
 
-    ```
+    ```json
     {
       "apiPath": "/status",             // API Path Name [String]
       "response": {                     // Response configuration [Object]
@@ -213,7 +213,7 @@ Follow the steps to create your custom configuration file for health API.
 
     Minimal custom configuration would be simple as this(you can ignore other properties as those will be filled with default values through the process),
 
-    ```
+    ```json
     {
       "consumedServices": {                 
         "mockService1": {                   
