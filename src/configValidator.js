@@ -3,12 +3,17 @@
 
 const defaultConfig = require('./configs/defaultConfig');
 const { REQUEST_TYPES } = require('./utils/apiHelper');
+const { loadConfigPropertiesFromEnv } = require('./envMatcher');
 
-const configValidator = config => {
+const configValidator = apiConfiguration => {
+  let config = apiConfiguration;
   if (!config) {
     const defaultConfigForServer = require('./configs/defaultConfig config.json');
     return defaultConfigForServer;
   }
+
+  // Fetch the properties from ENVs
+  config = loadConfigPropertiesFromEnv(config);
 
   // Assigning isDefault false to indicate the custom config
   config.isDefault = false;
