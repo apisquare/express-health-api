@@ -114,7 +114,7 @@ Follow the steps to create your custom configuration file for health API.
           }
         }
       ```
-    **If you like to have different AUTH_TOKEN for each environments,** you can update the AUTH_TOKEN through ENV properties. 
+    **If you like to have different AUTH_TOKEN for each environment,** you can update the AUTH_TOKEN through ENV properties. 
 
     - Add `HEALTH_API_AUTH_TOKEN` to your `.env` file or ENV properties
       ```
