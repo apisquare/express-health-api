@@ -50,13 +50,21 @@ app.use(expressHealthApi())
 
 You can customize the health API for your needs, and this will send the response based on those custom configurations. 
 
+  ```javascript
+  const expressHealthApi = require('express-health-api');
+  app.use(expressHealthApi({ apiPath: "/health" } ))
+  ```
+
+Or, you can create configuration file for HealthAPI and attach it with the initialization method,
 1. Create a custom configuration file in your project (e.g: `/src/config/healthApi.config.json`)
 2. Import that configuration file to your main file, and pass the configuration to `expressHealthApi` initiation.
-```javascript
-const expressHealthApi = require('express-health-api');
-const customHealthApiConfiguration = require('./config/healthApi.config.json')
-app.use(expressHealthApi(customHealthApiConfiguration))
-```
+
+
+  ```javascript
+  const expressHealthApi = require('express-health-api');
+  const customHealthApiConfiguration = require('./config/healthApi.config.json')
+  app.use(expressHealthApi(customHealthApiConfiguration))
+  ```
 
 ### Main parts of the configurations
 
