@@ -17,6 +17,12 @@ Realtime Health Status API for Node applications with Express framework.
 3. [Custom Health Status Configuration](#Custom-Health-Status-Configuration)
     1. [Main parts of the configurations](#Main-parts-of-the-configurations)
     2. [Custom configuration properties](#Custom-configuration-properties)
+        1. [Response configuration](#Response-configuration)
+        2. [API Security configuration](#API-Security-configuration)
+        3. [System Information configuration](#System-Information-configuration)
+        4. [Consumed services configuration](#Consumed-services-configuration)
+        5. [API's configuration](#API's-configuration)
+        6. [Example custom configuration](#Example-custom-configuration)
 4. [Example Server](#Example-Server)
 5. [Contributions](#Contributions)
 6. [Development](#Development)
@@ -181,7 +187,7 @@ Follow the steps to create your custom configuration file for health API.
     | ── isRequired |  &#9744; | true | Is this service required to serve this API (down this API if this service went down) |
     | | |
 
-6. #### Example custom configuration, 
+6. #### Example custom configuration
 
     ```json
     {
