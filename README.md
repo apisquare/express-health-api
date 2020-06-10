@@ -88,7 +88,7 @@ Follow the steps to create your custom configuration file for health API.
 
     ```json
     ...
-    apiSecurity: { authToken: "YOUR_TOKEN" }
+    "apiSecurity": { "authToken": "YOUR_TOKEN" }
     ...
     ```
 
@@ -137,13 +137,13 @@ Follow the steps to create your custom configuration file for health API.
     | | |
 
     This is the example configuration to configure required system information,
-    ```javascript
+    ```json
       ...
-      systemInformation: {
-        common: true,
-        cpu: true,
-        memory: true,
-        services: ["mysql", "apache2", "docker"]
+      "systemInformation": {
+        "common": true,
+        "cpu": true,
+        "memory": true,
+        "services": ["mysql", "apache2", "docker"]
       }
       ...
     ```
@@ -177,33 +177,33 @@ Follow the steps to create your custom configuration file for health API.
 
     ```json
     {
-      "apiPath": "/status",             // API Path Name [String]
-      "response": {                     // Response configuration [Object]
-        "statusCodes": true,            // Attach statusCodes with responses [Boolean]
+      "apiPath": "/status",
+      "response": {
+        "statusCodes": true,
       },
-      "systemInformation": {                // Attach system information with responses [Boolean/Object]
-        "common": true,                     // Attach common information [Boolean]
-        "cpu": true,                        // Attach cpu information [Boolean]
-        "memory": true                      // Attach memory information [Boolean]
-        "services": ["mysql", "apache2"]    // Array of process names [Array]
+      "systemInformation": {
+        "common": true,
+        "cpu": true,
+        "memory": true,
+        "services": ["mysql", "apache2"]
       },
-      "consumedServicesAsyncMode": false,   // Consumed Services request mode [Boolean]
-      "consumedServices": {                 // Consumed services configuration [Object]
-        "mockService1": {                   // Consumed serviceId : service configuration object
-          "serviceName": "Mock Service 1",  // Service Name [String]
-          "healthCheckUrl": "https://sampleHealthcheckUrl-1",   // Service health check URL [String]
-          "requestMethod": "GET",                                   // Service health check URL request method [String]
-          "expectedResponseStatus": 200                             // Expected response from health check request [Integer]
+      "consumedServicesAsyncMode": false,
+      "consumedServices": {
+        "mockService1": {
+          "serviceName": "Mock Service 1",
+          "healthCheckUrl": "https://sampleHealthcheckUrl-1",
+          "requestMethod": "GET",
+          "expectedResponseStatus": 200
         }
       },
-      "apis": {                             // Available APIs configuration in the server [Object]
-        "getUser": {                        // API id: apiConfiguration object
-          "apiName": "Get Users",           // API Name [String]
-          "requestMethod": "GET",           // API request method [String]
-          "dependsOn": [                    // Service dependents for this API configuration [Array]
+      "apis": { 
+        "getUser": {
+          "apiName": "Get Users",
+          "requestMethod": "GET",
+          "dependsOn": [
             {
-              "serviceId": "mockService1",      // Dependent serviceId [String]
-              "isRequired": true                // Is required to this API [Boolean]
+              "serviceId": "mockService1",
+              "isRequired": true
             }
           ]
         },
