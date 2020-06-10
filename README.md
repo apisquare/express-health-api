@@ -103,6 +103,16 @@ when you enable API Security for health API,
       }
     }
    ```
+ **If you like to have different AUTH_TOKEN for each environments,** you can update the AUTH_TOKEN through ENV properties. 
+
+- Add `HEALTH_API_AUTH_TOKEN` to your `.env` file or ENV properties
+   ```
+   ...
+   HEALTH_API_AUTH_TOKEN=<your_token>
+   ...
+   ```
+
+
 
 #### System Information configuration
 
