@@ -76,13 +76,13 @@ Or, you can create configuration file for HealthAPI and attach it with the initi
 
 | Property | Mandatory | Default value | Description |
 | ------- | ---  | ------------- | ----------- |
-| apiPath | &#9744; | "/status" | API path name |
-| apiSecurity | &#9744; | false | Secure health API with auth token |
-| response| &#9744; | { Object with all true } | Response object customization (You can avoid unwanted properties from health API response) |
-| systemInformation | &#9744;  | { Object with all true } | Customize required system information properties |
-| consumedServicesAsyncMode | &#9744;  | true | Consumed services health check method(Async or Sync based requests to endpoints) |
-| consumedServices | &#9744; | { } | Configuration of all the consumed services |
-| apis | &#9744; | { } | Configuration of all available APIs in the server |
+| apiPath | - | "/status" | API path name |
+| apiSecurity | - | false | Secure health API with auth token |
+| response| - | { Object with all true } | Response object customization (You can avoid unwanted properties from health API response) |
+| systemInformation | -  | { Object with all true } | Customize required system information properties |
+| consumedServicesAsyncMode | -  | true | Consumed services health check method(Async or Sync based requests to endpoints) |
+| consumedServices | - | { } | Configuration of all the consumed services |
+| apis | - | { } | Configuration of all available APIs in the server |
 | | |
 
 ### Custom configuration properties
@@ -93,7 +93,7 @@ Follow the steps to create your custom configuration file for health API.
 
     | Property | Mandatory | Default value | Description |
     | -------  | --------  | ------------- | ----------- |
-    | statusCodes | &#9744; | true | Include status codes of health checks with response |
+    | statusCodes | - | true | Include status codes of health checks with response |
     | | |
 
 2. #### API Security configuration
@@ -143,11 +143,11 @@ Follow the steps to create your custom configuration file for health API.
 
     | Property | Mandatory | Default value | Description |
     | -------  | --------  | ------------- | ----------- |
-    | systemInformation | &#9744; | { Object with all true } | Customize the system related information |
-    | ── common | &#9744; | true | Retrieve common(OS, Uptime) information |
-    | ── cpu | &#9744; | true | Retrieve CPU(Cores, Speeds) information |
-    | ── memory | &#9744; | true | Retrieve memory(Total, Free) information |
-    | ── services | &#9744; | undefined | Retrieve running service information from the server (Array of process names) |
+    | systemInformation | - | { Object with all true } | Customize the system related information |
+    | ── common | - | true | Retrieve common(OS, Uptime) information |
+    | ── cpu | - | true | Retrieve CPU(Cores, Speeds) information |
+    | ── memory | - | true | Retrieve memory(Total, Free) information |
+    | ── services | - | undefined | Retrieve running service information from the server (Array of process names) |
     | | |
 
     This is the example configuration to configure required system information,
@@ -168,10 +168,10 @@ Follow the steps to create your custom configuration file for health API.
 
     | Property | Mandatory | Default value | Description |
     | -------  | --------- | ------------- | ----------- |
-    | serviceName | &#9744; | Unknown service name | Name to indicate the consumed service |
+    | serviceName | - | Unknown service name | Name to indicate the consumed service |
     | healthCheckUrl | &check; | - | Health check endpoint of the service |
-    | requestMethod | &#9744; | GET | Request method of the health check URL (GET/POST/PUT/PATCH/HEAD/DELETE) |
-    | expectedResponseStatus | &#9744; | 200 | Expected response status code from the health check endpoint |
+    | requestMethod | - | GET | Request method of the health check URL (GET/POST/PUT/PATCH/HEAD/DELETE) |
+    | expectedResponseStatus | - | 200 | Expected response status code from the health check endpoint |
     | | |
 
 5. #### API's configuration
@@ -180,11 +180,11 @@ Follow the steps to create your custom configuration file for health API.
 
     | Property | Mandatory | Default value | Description |
     | -------  | --------- | ------------- | ----------- |
-    | api | &#9744; | Unknown API name | Name to indicate the API in the server |
-    | requestMethod | &#9744; | GET | Request method of the API (GET/POST/PUT/PATCH/HEAD/DELETE) |
-    | dependsOn | &#9744; | { } | Services configuration which this API depends on |
+    | api | - | Unknown API name | Name to indicate the API in the server |
+    | requestMethod | - | GET | Request method of the API (GET/POST/PUT/PATCH/HEAD/DELETE) |
+    | dependsOn | - | { } | Services configuration which this API depends on |
     | ── serviceId | &check; | - | ServiceId which mentioned in the consumed services section |
-    | ── isRequired |  &#9744; | true | Is this service required to serve this API (down this API if this service went down) |
+    | ── isRequired |  - | true | Is this service required to serve this API (down this API if this service went down) |
     | | |
 
 6. #### Example custom configuration
