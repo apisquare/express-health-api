@@ -5,7 +5,7 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 const config = require('./healthApi.config.json');
-const expressHealth = require('../src/connect');
+const expressHealth = require("express-health-api");
 
 app.use(expressHealth(config));
 
