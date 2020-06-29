@@ -1,0 +1,13 @@
+.github/
+test-server/
+test/
+.npmignore
+.sonarcloud.properties
+.nycrc
+.eslintrc.json
+.eslintignore
+coverage
+*.log
+.nyc_output
+coverage.lcov
+*.log
