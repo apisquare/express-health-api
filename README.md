@@ -46,6 +46,8 @@ Supports to Node.js versions 8.x and above.
 2. Create your custom configurations for the status api [Follow here] or you can go ahead with default configurations.
 3. Go to your main file where you initialized the express server, and place the line before any middleware or routes.
 ```javascript
+const app = express(); // create express server
+
 const expressHealthApi = require('express-health-api');
 app.use(expressHealthApi())
 ```
@@ -57,6 +59,8 @@ app.use(expressHealthApi())
 You can customize the health API for your needs, and this will send the response based on those custom configurations. 
 
   ```javascript
+  const app = express(); // create express server
+
   const expressHealthApi = require('express-health-api');
   app.use(expressHealthApi({ apiPath: "/health" } ))
   ```
@@ -67,6 +71,8 @@ Or, you can create configuration file for HealthAPI and attach it with the initi
 
 
   ```javascript
+  const app = express(); // create express server
+  
   const expressHealthApi = require('express-health-api');
   const customHealthApiConfiguration = require('./config/healthApi.config.json')
   app.use(expressHealthApi(customHealthApiConfiguration))
