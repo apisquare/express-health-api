@@ -1,8 +1,8 @@
 # Express Health API
 
-![Node.js CI Build](https://github.com/APISquare/express-health-api/workflows/Node.js%20CI%20Build/badge.svg)
+![Node.js CI Build](https://github.com/apisquare/express-health-api/workflows/Node.js%20CI%20Build/badge.svg)
 [![NPM version](https://img.shields.io/npm/v/express-health-api.svg)](https://www.npmjs.com/package/express-health-api)
-[![codecov](https://codecov.io/gh/APISquare/express-health-api/branch/master/graph/badge.svg)](https://codecov.io/gh/APISquare/express-health-api)
+[![codecov](https://codecov.io/gh/apisquare/express-health-api/branch/master/graph/badge.svg)](https://codecov.io/gh/apisquare/express-health-api)
 ![npm bundle size](https://img.shields.io/bundlephobia/minzip/express-health-api)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=APISqure_express-health-api&metric=alert_status)](https://sonarcloud.io/dashboard?id=APISqure_express-health-api)
 [![MIT license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://github.com/APISquare/express-health-api/blob/master/LICENSE)
@@ -72,7 +72,7 @@ Or, you can create configuration file for HealthAPI and attach it with the initi
 
   ```javascript
   const app = express(); // create express server
-  
+
   const expressHealthApi = require('express-health-api');
   const customHealthApiConfiguration = require('./config/healthApi.config.json')
   app.use(expressHealthApi(customHealthApiConfiguration))
@@ -258,7 +258,7 @@ Follow the steps to create your custom configuration file for health API.
     }
     ```
 
-    Find the test-server [custom configurations here](https://github.com/APISquare/express-health-api/blob/master/test-server/healthApi.config.json) as an example.
+    Find the test-server [custom configurations here](https://github.com/apisquare/express-health-api/blob/master/test-server/healthApi.config.json) as an example.
 
 ## Example Server
 
@@ -271,9 +271,9 @@ This project has an example project configured with custom configurations. To ru
 
 ## Contributions
 
-You can add any suggestions/feature requirements/bugs to the Github issues page : [https://github.com/APISquare/express-health-api/issues](https://github.com/APISquare/express-health-api/issues)
+You can add any suggestions/feature requirements/bugs to the Github issues page : [https://github.com/apisquare/express-health-api/issues](https://github.com/apisquare/express-health-api/issues)
 
-Add your fixes and development changes as pull requests to this [repository](https://github.com/APISquare/express-health-api/pulls).
+Add your fixes and development changes as pull requests to this [repository](https://github.com/apisquare/express-health-api/pulls).
 
 ## Development
 
